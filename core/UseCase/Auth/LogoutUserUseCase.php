@@ -2,19 +2,25 @@
 
 namespace Core\UseCase\Auth;
 
-use Core\BusinessRules\Auth\ClearAccessTokensByUserIdInterface;
+use Core\BusinessRules\Auth\LogoutUserInterface;
+use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
 
 class LogoutUserUseCase
 {
-    private ClearAccessTokensByUserIdInterface $clearAccessTokensByUserId;
+    private GetAuthorizedUserIdInterface $getAuthorizedUserId;
+    private LogoutUserInterface $logoutUser;
 
-    public function __construct(ClearAccessTokensByUserIdInterface $clearAccessTokensByUserId)
-    {
-        $this->clearAccessTokensByUserId = $clearAccessTokensByUserId;
+    public function __construct(
+        GetAuthorizedUserIdInterface $getAuthorizedUserId,
+        LogoutUserInterface $logoutUser
+    ) {
+        $this->getAuthorizedUserId = $getAuthorizedUserId;
+        $this->logoutUser = $logoutUser;
     }
 
-    public function logout(int $userId): void
+    public function logout(): void
     {
-        $this->clearAccessTokensByUserId->clear($userId);
+        $userId = $this->getAuthorizedUserId->get();
+        $this->logoutUser->logout($userId);
     }
 }

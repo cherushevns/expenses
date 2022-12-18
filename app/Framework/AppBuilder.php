@@ -23,6 +23,8 @@ class AppBuilder
             'DB_USER',
             'DB_PASSWORD',
             'DB_DRIVER',
+            'DB_PORT',
+            'DB_CHARSET',
         ]);
 
         $container = ContainerBuilder::build();

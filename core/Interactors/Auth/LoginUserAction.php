@@ -23,6 +23,7 @@ class LoginUserAction implements LoginUserInterface
     public function login(int $userId): AccessToken
     {
         $accessTokenEntity = $this->accessTokenModel->toDb($userId);
+        $this->accessTokenRepository->clearUserTokens($userId);
         $this->accessTokenRepository->save($accessTokenEntity);
 
         return $this->accessTokenModel->toBusiness($accessTokenEntity);

@@ -19,7 +19,7 @@ class LogoutController extends AbstractController
 
     public function __invoke(ServerRequest $request, Response $response): Response
     {
-        $this->logoutUserUseCase->logout($request->getAttribute('userId'));
+        $this->logoutUserUseCase->logout();
 
         return $this->sendSuccessResponse(
             [],

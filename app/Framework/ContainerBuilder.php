@@ -2,17 +2,16 @@
 
 namespace App\Framework;
 
-use App\Framework\Definition\InfrastructureTrait;
-use App\Framework\Definition\AuthTrait;
-use App\Framework\Definition\RegularExpenseTrait;
+use App\Framework\Definition;
 use DI\Container;
 use DI\ContainerBuilder as DIContainerBuilder;
 
 class ContainerBuilder
 {
-    use InfrastructureTrait;
-    use AuthTrait;
-    use RegularExpenseTrait;
+    use Definition\InfrastructureTrait;
+    use Definition\AuthTrait;
+    use Definition\ExpenseTrait;
+    use Definition\CommonTrait;
 
     public static function build(): Container
     {
@@ -21,8 +20,9 @@ class ContainerBuilder
         // @todo impl cache
 
         $containerBuilder->addDefinitions(self::getInfrastructure());
+        $containerBuilder->addDefinitions(self::getCommon());
         $containerBuilder->addDefinitions(self::getAuth());
-        $containerBuilder->addDefinitions(self::getRegularExpense());
+        $containerBuilder->addDefinitions(self::getExpense());
 
         return $containerBuilder->build();
     }

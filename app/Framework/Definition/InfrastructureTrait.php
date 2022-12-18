@@ -21,6 +21,8 @@ trait InfrastructureTrait
                     'password' => $_SERVER['DB_PASSWORD'],
                     'host' => $_SERVER['DB_HOST'],
                     'driver' => $_SERVER['DB_DRIVER'],
+                    'port' => $_SERVER['DB_PORT'],
+                    'charset' => $_SERVER['DB_CHARSET']
                 ])
             ),
             LoggerInterface::class => self::getLogger(),

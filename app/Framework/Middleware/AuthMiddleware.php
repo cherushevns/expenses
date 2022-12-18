@@ -2,25 +2,22 @@
 
 namespace App\Framework\Middleware;
 
-use Core\BusinessRules\Auth\ClearAccessTokensByUserIdInterface;
-use Core\BusinessRules\Auth\GetAccessTokenByTokenInterface;
+use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Exception\HttpForbiddenException;
+use Throwable;
 
 class AuthMiddleware implements MiddlewareInterface
 {
-    private GetAccessTokenByTokenInterface $getUserIdByToken;
-    private ClearAccessTokensByUserIdInterface $clearAccessTokensByUserId;
+    private GetAuthorizedUserIdInterface $getAuthorizedUserId;
 
     public function __construct(
-        GetAccessTokenByTokenInterface $getUserIdByToken,
-        ClearAccessTokensByUserIdInterface $clearAccessTokensByUserId
+        GetAuthorizedUserIdInterface $getAuthorizedUserId
     ) {
-        $this->getUserIdByToken = $getUserIdByToken;
-        $this->clearAccessTokensByUserId = $clearAccessTokensByUserId;
+        $this->getAuthorizedUserId = $getAuthorizedUserId;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -33,22 +30,12 @@ class AuthMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
-        if (empty($request->getHeader('Access-Token'))) {
+        try {
+            $this->getAuthorizedUserId->get();
+        } catch (Throwable $t) {
             throw new HttpForbiddenException($request);
         }
 
-        $accessToken = $this->getUserIdByToken->get($request->getHeaderLine('Access-Token'));
-
-        if (! $accessToken) {
-            throw new HttpForbiddenException($request);
-        }
-
-        if ($accessToken->getTtl() <= 0) {
-            $this->clearAccessTokensByUserId->clear($accessToken->getUserId());
-            throw new HttpForbiddenException($request);
-        }
-
-        $request = $request->withAttribute('userId', $accessToken->getUserId());
         return $handler->handle($request);
     }
 }

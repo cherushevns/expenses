@@ -10,6 +10,8 @@ final class InitTablesMigration extends AbstractMigration
         $this->createAccessTokenTable();
         $this->createExpenseCategoryTable();
         $this->createUserTable();
+        $this->createPlannedExpenseTable();
+        $this->createActualExpenseTable();
     }
 
     private function createAccessTokenTable(): void
@@ -55,6 +57,41 @@ create table user
     email         varchar(255) not null,
     password      varchar(255) not null,
     password_hash varchar(255) not null
+);
+SQL;
+        $this->query($sql);
+    }
+
+    private function createPlannedExpenseTable(): void
+    {
+        $sql = <<<SQL
+-- auto-generated definition
+create table planned_expense
+(
+    id                  int auto_increment
+        primary key,
+    category_id         int(11) not null,
+    amount              decimal(16,2) not null,
+    currency            varchar(255) not null,
+    will_be_spent_at    datetime
+);
+SQL;
+        $this->query($sql);
+    }
+
+    private function createActualExpenseTable(): void
+    {
+        $sql = <<<SQL
+-- auto-generated definition
+create table actual_expense
+(
+    id                  int auto_increment
+        primary key,
+    category_id         int(11) not null,
+    amount              decimal(16,2) not null,
+    currency            varchar(255) not null,
+    title               varchar(255) not null,
+    spent_at            datetime
 );
 SQL;
         $this->query($sql);

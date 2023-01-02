@@ -4,7 +4,7 @@ namespace App\Controller\ExpenseCategory;
 
 use App\Controller\AbstractController;
 use App\RequestValidator\ExpenseCategory\CreateValidator;
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 use Core\BusinessRules\ExpenseCategory\Entity\Type;
 use Core\UseCase\ExpenseCategory\CreateUseCase;
 use Slim\Http\Response;
@@ -31,15 +31,15 @@ class CreateController extends AbstractController
             return $this->sendValidationResponse($errors, $response);
         }
 
-        $expense = new Expense(
+        $expenseCategory = new ExpenseCategory(
             null,
             null,
             $data['title'],
             new Type($data['type'])
         );
 
-        $expenseId = $this->createUseCase->create($expense);
+        $expenseCategoryId = $this->createUseCase->create($expenseCategory);
 
-        return $this->sendSuccessResponse(['id' => $expenseId], $response);
+        return $this->sendSuccessResponse(['id' => $expenseCategoryId], $response);
     }
 }

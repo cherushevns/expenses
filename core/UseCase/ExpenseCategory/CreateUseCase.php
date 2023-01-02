@@ -4,7 +4,7 @@ namespace Core\UseCase\ExpenseCategory;
 
 use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
 use Core\BusinessRules\ExpenseCategory\CreateInterface;
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 
 class CreateUseCase
 {
@@ -19,7 +19,7 @@ class CreateUseCase
         $this->getAuthorizedUserId = $getAuthorizedUserId;
     }
 
-    public function create(Expense $expense): int
+    public function create(ExpenseCategory $expense): int
     {
         $expense->setUserId($this->getAuthorizedUserId->get()); // По-идее бы в фабрику утащить, но для MVP и так сойдёт
         return $this->create->create($expense);

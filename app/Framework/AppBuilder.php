@@ -7,8 +7,6 @@ use App\Framework\Application\RouteTrait;
 use Dotenv\Dotenv;
 use Slim\App;
 use Slim\Factory\AppFactory;
-use League\OpenAPIValidation\PSR15\ValidationMiddlewareBuilder;
-use League\OpenAPIValidation\PSR15\SlimAdapter;
 
 class AppBuilder
 {

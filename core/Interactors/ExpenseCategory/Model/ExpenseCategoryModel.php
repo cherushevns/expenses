@@ -2,13 +2,13 @@
 
 namespace Core\Interactors\ExpenseCategory\Model;
 
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 use Core\BusinessRules\ExpenseCategory\Entity\Type;
 use Core\Infrastructure\DataAccessors\Database\ExpenseCategory\ExpenseCategoryEntity;
 
 class ExpenseCategoryModel
 {
-    public function toData(Expense $expense): ExpenseCategoryEntity
+    public function toData(ExpenseCategory $expense): ExpenseCategoryEntity
     {
         return new ExpenseCategoryEntity(
             $expense->getId(),
@@ -18,13 +18,13 @@ class ExpenseCategoryModel
         );
     }
 
-    public function toBusiness(ExpenseCategoryEntity $regularExpenseEntity): Expense
+    public function toBusiness(ExpenseCategoryEntity $expenseCategoryEntity): ExpenseCategory
     {
-        return new Expense(
-            $regularExpenseEntity->getId(),
-            $regularExpenseEntity->getUserId(),
-            $regularExpenseEntity->getTitle(),
-            new Type($regularExpenseEntity->getType())
+        return new ExpenseCategory(
+            $expenseCategoryEntity->getId(),
+            $expenseCategoryEntity->getUserId(),
+            $expenseCategoryEntity->getTitle(),
+            new Type($expenseCategoryEntity->getType())
         );
     }
 }

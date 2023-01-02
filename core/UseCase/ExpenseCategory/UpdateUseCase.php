@@ -4,7 +4,7 @@ namespace Core\UseCase\ExpenseCategory;
 
 use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
 use Core\BusinessRules\ExpenseCategory\UpdateInterface;
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 
 class UpdateUseCase
 {
@@ -19,7 +19,7 @@ class UpdateUseCase
         $this->getAuthorizedUserId = $getAuthorizedUserId;
     }
 
-    public function update(Expense $expense): void
+    public function update(ExpenseCategory $expense): void
     {
         $expense->setUserId($this->getAuthorizedUserId->get()); // По-идее бы в фабрику утащить, но для MVP и так сойдёт
         $this->update->update($expense);

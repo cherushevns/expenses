@@ -4,7 +4,7 @@ namespace App\RequestValidator\ExpenseCategory;
 
 use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
 use Core\BusinessRules\ExpenseCategory\CheckIsExistsInterface;
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 use Core\BusinessRules\ExpenseCategory\Entity\Type;
 
 class CreateValidator
@@ -32,14 +32,14 @@ class CreateValidator
             return $errors;
         }
 
-        $expense = new Expense(
+        $expenseCategory = new ExpenseCategory(
             null,
             null,
             $data['title'],
             new Type($data['type'])
         );
 
-        if ($this->checkIsExists->check($expense)) {
+        if ($this->checkIsExists->check($expenseCategory)) {
             $errors[] = ['field' => 'title', 'error' => 'В данной категории запись с таким названием уже существует'];
         }
 

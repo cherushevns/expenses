@@ -4,6 +4,7 @@ namespace App\Framework\Application;
 
 use App\Controller\Auth;
 use App\Controller\ExpenseCategory;
+use App\Controller\PlannedExpense;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -15,12 +16,9 @@ trait RouteTrait
             $group->group('/expense-category', function(RouteCollectorProxy $group): void {
                 $group->post('', ExpenseCategory\CreateController::class);
                 $group->put('/{id}', ExpenseCategory\UpdateController::class);
-                $group->get('', ExpenseCategory\GetAllController::class);
-                /*$group->group('/entry', function(RouteCollectorProxy $group): void {
-                    $group->post('/{expenseId}', ExpenseEntry\CreateController::class);
-                    $group->put('/{expenseId}/{id}', ExpenseEntry\UpdateController::class);
-                    $group->get('/{expenseId}', ExpenseEntry\GetAllController::class);
-                });*/
+            });
+            $group->group('/planned-expense', function(RouteCollectorProxy $group): void {
+                $group->post('', PlannedExpense\CreateController::class);
             });
             $group->group('/auth', function(RouteCollectorProxy $group): void {
                 $group->post('/register', Auth\RegisterController::class);

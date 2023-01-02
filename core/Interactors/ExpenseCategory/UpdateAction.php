@@ -2,28 +2,28 @@
 
 namespace Core\Interactors\ExpenseCategory;
 
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 use Core\BusinessRules\ExpenseCategory\UpdateInterface;
 use Core\Infrastructure\DataAccessors\Database\ExpenseCategory\ExpenseCategoryRepository;
 use Core\Interactors\ExpenseCategory\Model\ExpenseCategoryModel;
 
 class UpdateAction implements UpdateInterface
 {
-    private ExpenseCategoryRepository $expenseRepository;
-    private ExpenseCategoryModel $expenseModel;
+    private ExpenseCategoryRepository $expenseCategoryRepository;
+    private ExpenseCategoryModel $expenseCategoryModel;
 
     public function __construct(
-        ExpenseCategoryRepository $expenseRepository,
-        ExpenseCategoryModel $expenseModel
+        ExpenseCategoryRepository $expenseCategoryRepository,
+        ExpenseCategoryModel $expenseCategoryModel
     ) {
-        $this->expenseRepository = $expenseRepository;
-        $this->expenseModel = $expenseModel;
+        $this->expenseCategoryRepository = $expenseCategoryRepository;
+        $this->expenseCategoryModel = $expenseCategoryModel;
     }
 
-    public function update(Expense $expense): void
+    public function update(ExpenseCategory $expense): void
     {
-        $this->expenseRepository->update(
-            $this->expenseModel->toData($expense)
+        $this->expenseCategoryRepository->update(
+            $this->expenseCategoryModel->toData($expense)
         );
     }
 }

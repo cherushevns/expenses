@@ -3,7 +3,7 @@
 namespace App\RequestValidator\ExpenseCategory;
 
 use Core\BusinessRules\ExpenseCategory\CheckIsExistsInterface;
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 use Core\BusinessRules\ExpenseCategory\Entity\Type;
 
 class UpdateValidator
@@ -32,7 +32,7 @@ class UpdateValidator
             return $errors;
         }
 
-        $expense = new Expense(
+        $expense = new ExpenseCategory(
             $id,
             null,
             $data['title'],

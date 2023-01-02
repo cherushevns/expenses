@@ -2,7 +2,7 @@
 
 namespace Core\BusinessRules\ExpenseCategory\Entity;
 
-class Expense
+class ExpenseCategory
 {
     private ?int $id;
     private ?int $userId;

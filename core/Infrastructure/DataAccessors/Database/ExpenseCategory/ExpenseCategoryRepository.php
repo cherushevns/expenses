@@ -13,7 +13,7 @@ class ExpenseCategoryRepository
         $this->connection = $connection;
     }
 
-    public function create(ExpenseCategoryEntity $expenseEntity): int
+    public function create(ExpenseCategoryEntity $expenseCategory): int
     {
         $sql = <<<SQL
 INSERT INTO expense_category
@@ -24,15 +24,15 @@ SET
 SQL;
 
         $this->connection->query($sql, [
-            'title' => $expenseEntity->getTitle(),
-            'userId' => $expenseEntity->getUserId(),
-            'type' => $expenseEntity->getType()
+            'title' => $expenseCategory->getTitle(),
+            'userId' => $expenseCategory->getUserId(),
+            'type' => $expenseCategory->getType()
         ]);
 
         return $this->connection->getLastInsertId();
     }
 
-    public function update(ExpenseCategoryEntity $expenseEntity): void
+    public function update(ExpenseCategoryEntity $expenseCategory): void
     {
         $sql = <<<SQL
 UPDATE expense_category
@@ -44,20 +44,20 @@ WHERE
 SQL;
 
         $this->connection->query($sql, [
-            'title' => $expenseEntity->getTitle(),
-            'type' => $expenseEntity->getType(),
-            'id' => $expenseEntity->getId()
+            'title' => $expenseCategory->getTitle(),
+            'type' => $expenseCategory->getType(),
+            'id' => $expenseCategory->getId()
         ]);
     }
 
-    public function checkIsExists(ExpenseCategoryEntity $expenseEntity): bool
+    public function checkIsExists(ExpenseCategoryEntity $expenseCategory): bool
     {
         $addWhere = '';
         $addParameters = [];
 
-        if ($expenseEntity->getId()) {
+        if ($expenseCategory->getId()) {
             $addWhere .= ' AND id != :id ';
-            $addParameters['id'] = $expenseEntity->getId();
+            $addParameters['id'] = $expenseCategory->getId();
         }
 
         $sql = <<<SQL
@@ -70,28 +70,11 @@ WHERE
 SQL;
 
         return (bool) $this->connection->fetchOne($sql, array_merge([
-            'type' => $expenseEntity->getType(),
-            'title' => $expenseEntity->getTitle(),
-            'userId' => $expenseEntity->getUserId()
+            'type' => $expenseCategory->getType(),
+            'title' => $expenseCategory->getTitle(),
+            'userId' => $expenseCategory->getUserId()
         ], $addParameters));
 
-    }
-
-    /**
-     * @param int $userId
-     * @return ExpenseCategoryEntity[]
-     */
-    public function getAllByUser(int $userId): array
-    {
-        $sql = <<<SQL
-SELECT * FROM expense_category WHERE user_id = :userId
-SQL;
-
-        $result = $this->connection->fetchAll($sql, [
-            'userId' => $userId
-        ]);
-
-        return $result ? $this->makeEntitiesFromRows($result) : [];
     }
 
     /**

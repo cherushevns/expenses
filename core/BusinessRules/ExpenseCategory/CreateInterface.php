@@ -2,9 +2,9 @@
 
 namespace Core\BusinessRules\ExpenseCategory;
 
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 
 interface CreateInterface
 {
-    public function create(Expense $expense): int;
+    public function create(ExpenseCategory $expenseCategory): int;
 }

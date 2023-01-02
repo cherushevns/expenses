@@ -4,7 +4,7 @@ namespace App\Controller\ExpenseCategory;
 
 use App\Controller\AbstractController;
 use App\RequestValidator\ExpenseCategory\UpdateValidator;
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 use Core\BusinessRules\ExpenseCategory\Entity\Type;
 use Core\UseCase\ExpenseCategory\UpdateUseCase;
 use Slim\Http\Response;
@@ -32,14 +32,14 @@ class UpdateController extends AbstractController
             return $this->sendValidationResponse($errors, $response);
         }
 
-        $expense = new Expense(
+        $expenseCategory = new ExpenseCategory(
             $id,
             null,
             $data['title'],
             new Type($data['type'])
         );
 
-        $this->updateUseCase->update($expense);
+        $this->updateUseCase->update($expenseCategory);
 
         return $this->sendSuccessResponse(['id' => $id], $response);
     }

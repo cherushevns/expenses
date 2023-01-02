@@ -2,9 +2,9 @@
 
 namespace Core\BusinessRules\ExpenseCategory;
 
-use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 
 interface UpdateInterface
 {
-    public function update(Expense $expense): void;
+    public function update(ExpenseCategory $expenseCategory): void;
 }

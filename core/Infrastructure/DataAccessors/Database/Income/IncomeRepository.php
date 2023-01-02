@@ -21,6 +21,7 @@ class IncomeRepository
         $sql = <<<SQL
 INSERT INTO income
 SET
+    title = :title,
     user_id = :userId,
     amount = :amount,
     currency = :currency,
@@ -28,10 +29,11 @@ SET
 SQL;
 
         $this->connection->query($sql, [
+            'title' => $income->getTitle(),
             'userId' => $income->getUserId(),
             'amount' => $income->getAmount(),
             'currency' => $income->getCurrency(),
-            'willBeSpentAt' => $income->getEarnedAt()->format(DateTimeInterface::ATOM)
+            'earnedAt' => $income->getEarnedAt()->format(DateTimeInterface::ATOM)
         ]);
     }
 

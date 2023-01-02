@@ -106,6 +106,7 @@ create table income
 (
     id                  int auto_increment
         primary key,
+    title     varchar(255) not null,
     user_id   int(11) not null,
     amount    decimal(16,2) not null,
     currency  varchar(255) not null,

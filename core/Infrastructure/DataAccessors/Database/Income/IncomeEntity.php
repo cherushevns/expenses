@@ -7,11 +7,17 @@ use DateTimeImmutable;
 class IncomeEntity
 {
     public function __construct(
+        private string $title,
         private int $userId,
         private float $amount,
         private string $currency,
         private DateTimeImmutable $earnedAt
     ) {}
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
 
     public function getUserId(): int
     {

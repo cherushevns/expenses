@@ -14,6 +14,7 @@ class RegisterValidator
     public function validate(array $data): array
     {
         $errors = [];
+
         if (empty($data['name'])) {
             $errors[] = ['field' => 'name', 'error' => 'Заполните поле'];
         }

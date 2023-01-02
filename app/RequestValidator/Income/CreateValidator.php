@@ -9,6 +9,12 @@ class CreateValidator
 {
     public function validate(array $data): array
     {
+        $errors = [];
+
+        if (empty($data['title'])) {
+            $errors[] = ['field' => 'title', 'error' => 'Заполните поле'];
+        }
+
         if (empty($data['amount'])) {
             $errors[] = ['field' => 'amount', 'error' => 'Заполните поле'];
         }

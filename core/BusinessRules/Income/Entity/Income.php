@@ -8,10 +8,16 @@ use DateTimeImmutable;
 class Income
 {
     public function __construct(
+        private string $title,
         private Money $money,
         private DateTimeImmutable $earnedAt,
         private ?int $userId = null
     ) {}
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
 
     public function getMoney(): Money
     {

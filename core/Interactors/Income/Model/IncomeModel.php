@@ -11,6 +11,7 @@ class IncomeModel
     public function toData(Income $income): IncomeEntity
     {
         return new IncomeEntity(
+            $income->getTitle(),
             $income->getUserId(),
             $income->getMoney()->getAmount(),
             $income->getMoney()->getCurrency(),
@@ -21,6 +22,7 @@ class IncomeModel
     public function toBusiness(IncomeEntity $incomeEntity): Income
     {
         return new Income(
+            $incomeEntity->getTitle(),
             new Money(
                 $incomeEntity->getAmount(),
                 $incomeEntity->getCurrency()

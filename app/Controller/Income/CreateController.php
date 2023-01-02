@@ -27,6 +27,7 @@ class CreateController extends AbstractController
         }
 
         $income = new Income(
+            $data['title'],
             new Money(
                 $data['amount'],
                 $data['currency']

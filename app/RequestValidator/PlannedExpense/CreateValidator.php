@@ -15,6 +15,7 @@ class CreateValidator
     public function validate(array $data): array
     {
         $errors = [];
+
         if (empty($data['categoryId'])) {
             $errors[] = ['field' => 'categoryId', 'error' => 'Заполните поле'];
         } else {

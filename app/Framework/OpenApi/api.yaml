@@ -7,6 +7,6 @@ info:
 paths:
   # Expenses
   /v1/expense:
-    $ref: 'Expense.yaml#/LowFareSearch'
+    $ref: 'Expense.yaml#/test'
 
 

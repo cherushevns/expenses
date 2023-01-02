@@ -25,11 +25,11 @@ trait MiddlewareTrait
 
     private static function addValidationMiddleware(App $app): void
     {
-        $yamlFileConfigPath = DIR_ROOT . '/app/Framework/OpenApi/api.yaml';
+        /*$yamlFileConfigPath = DIR_ROOT . '/app/Framework/OpenApi/api.yaml';
 
         $validationMiddlewareBuilder = new ValidationMiddlewareBuilder();
         $psr15Middleware = $validationMiddlewareBuilder->fromYamlFile($yamlFileConfigPath)->getValidationMiddleware();
         $slimMiddleware = new SlimAdapter($psr15Middleware);
-        $app->add($slimMiddleware);
+        $app->add($slimMiddleware);*/
     }
 }

@@ -1,5 +1,7 @@
 vendor
 composer.lock
-storage/*
+storage/cache/*
+storage/nginx/*
 .env
 .idea/
+mysql/

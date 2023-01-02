@@ -10,7 +10,7 @@ use Core\Interactors\ActualExpense\DeleteAction;
 use Core\Interactors\ActualExpense\GetByIdAction;
 use function DI\autowire;
 
-trait ActualExpense
+trait ActualExpenseTrait
 {
     public static function getActualExpense(): array
     {

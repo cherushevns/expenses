@@ -1,6 +1,6 @@
 <?php
 
-namespace App\RequestValidator\PlannedExpense;
+namespace App\RequestValidator\ActualExpense;
 
 use Core\BusinessRules\ActualExpense;
 use Core\BusinessRules\ExpenseCategory;

@@ -3,6 +3,7 @@
 namespace Core\BusinessRules\PlannedExpense\Entity;
 
 use Core\BusinessRules\Common\Money\Money;
+use DateTimeImmutable;
 
 /**
  * @description Регулярный планируемый расход по категории
@@ -13,7 +14,7 @@ class PlannedExpense
     public function __construct(
         private int $categoryId,
         private Money $money,
-        private ?MonthAndYear $monthAndYear
+        private ?DateTimeImmutable $willBeSpentAt
     ) {}
 
     public function getCategoryId(): int
@@ -26,8 +27,8 @@ class PlannedExpense
         return $this->money;
     }
 
-    public function getMonthAndYear(): ?MonthAndYear
+    public function getWillBeSpentAt(): ?DateTimeImmutable
     {
-        return $this->monthAndYear;
+        return $this->willBeSpentAt;
     }
 }

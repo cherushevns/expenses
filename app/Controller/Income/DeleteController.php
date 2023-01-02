@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller\ActualExpense;
+namespace App\Controller\Income;
 
 use App\Controller\AbstractController;
-use App\RequestValidator\ActualExpense\DeleteValidator;
-use Core\UseCase\ActualExpense\DeleteUseCase;
+use App\RequestValidator\Income\DeleteValidator;
+use Core\UseCase\Income\DeleteUseCase;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 

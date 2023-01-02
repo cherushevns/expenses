@@ -6,6 +6,7 @@ use App\Controller\Auth;
 use App\Controller\ExpenseCategory;
 use App\Controller\PlannedExpense;
 use App\Controller\ActualExpense;
+use App\Controller\Income;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -24,6 +25,10 @@ trait RouteTrait
             $group->group('/actual-expense', function(RouteCollectorProxy $group): void {
                 $group->post('', ActualExpense\CreateController::class);
                 $group->delete('/{id}', ActualExpense\DeleteController::class);
+            });
+            $group->group('/income', function(RouteCollectorProxy $group): void {
+                $group->post('', Income\CreateController::class);
+                $group->delete('/{id}', Income\DeleteController::class);
             });
             $group->group('/auth', function(RouteCollectorProxy $group): void {
                 $group->post('/register', Auth\RegisterController::class);

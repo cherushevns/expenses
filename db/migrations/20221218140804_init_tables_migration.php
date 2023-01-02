@@ -12,6 +12,7 @@ final class InitTablesMigration extends AbstractMigration
         $this->createUserTable();
         $this->createPlannedExpenseTable();
         $this->createActualExpenseTable();
+        $this->createIncomeTable();
     }
 
     private function createAccessTokenTable(): void
@@ -92,6 +93,23 @@ create table actual_expense
     currency            varchar(255) not null,
     title               varchar(255) not null,
     spent_at            datetime not null
+);
+SQL;
+        $this->query($sql);
+    }
+
+    private function createIncomeTable(): void
+    {
+        $sql = <<<SQL
+-- auto-generated definition
+create table income
+(
+    id                  int auto_increment
+        primary key,
+    user_id   int(11) not null,
+    amount    decimal(16,2) not null,
+    currency  varchar(255) not null,
+    earned_at datetime not null
 );
 SQL;
         $this->query($sql);

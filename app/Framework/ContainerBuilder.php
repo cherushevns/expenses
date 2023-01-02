@@ -12,8 +12,9 @@ class ContainerBuilder
     use Definition\AuthTrait;
     use Definition\ExpenseCategoryTrait;
     use Definition\CommonTrait;
-    use Definition\PlannedExpense;
-    use Definition\ActualExpense;
+    use Definition\PlannedExpenseTrait;
+    use Definition\ActualExpenseTrait;
+    use Definition\IncomeTrait;
 
     public static function build(): Container
     {
@@ -27,6 +28,7 @@ class ContainerBuilder
         $containerBuilder->addDefinitions(self::getExpenseCategory());
         $containerBuilder->addDefinitions(self::getPlannedExpense());
         $containerBuilder->addDefinitions(self::getActualExpense());
+        $containerBuilder->addDefinitions(self::getIncome());
 
         return $containerBuilder->build();
     }

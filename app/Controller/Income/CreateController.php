@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Controller\PlannedExpense;
+namespace App\Controller\Income;
 
 use App\Controller\AbstractController;
-use App\RequestValidator\PlannedExpense\CreateValidator;
+use App\RequestValidator\Income\CreateValidator;
 use Core\BusinessRules\Common\Money\Money;
-use Core\BusinessRules\PlannedExpense\Entity\MonthAndYear;
-use Core\BusinessRules\PlannedExpense\Entity\PlannedExpense;
-use Core\UseCase\PlannedExpense\CreateUseCase;
+use Core\BusinessRules\Income\Entity\Income;
+use Core\UseCase\Income\CreateUseCase;
 use DateTimeImmutable;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
@@ -27,18 +26,15 @@ class CreateController extends AbstractController
             return $this->sendValidationResponse($errors, $response);
         }
 
-        $plannedExpense = new PlannedExpense(
-            $data['categoryId'],
+        $income = new Income(
             new Money(
                 $data['amount'],
                 $data['currency']
             ),
-            ! empty($data['date'])
-                ? new DateTimeImmutable($data['date'] . '-01 00:00:00') // crutch?
-                : null
+            new DateTimeImmutable($data['date'])
         );
 
-        $this->createUseCase->create($plannedExpense);
+        $this->createUseCase->create($income);
 
         return $this->sendSuccessResponse([], $response);
     }

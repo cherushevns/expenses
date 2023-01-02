@@ -16,9 +16,7 @@ class PlannedExpenseModel
             $plannedExpense->getCategoryId(),
             $plannedExpense->getMoney()->getAmount(),
             $plannedExpense->getMoney()->getCurrency(),
-            $plannedExpense->getMonthAndYear()
-                ? $this->makeDateTimeFromMonthAndYear($plannedExpense->getMonthAndYear())
-                : null
+            $plannedExpense->getWillBeSpentAt()
         );
     }
 
@@ -31,11 +29,6 @@ class PlannedExpenseModel
                 $plannedExpenseEntity->getCurrency()
             ),
             $plannedExpenseEntity->getWillBeSpentAt()
-                ? new MonthAndYear(
-                    $plannedExpenseEntity->getWillBeSpentAt()->format('m'),
-                    $plannedExpenseEntity->getWillBeSpentAt()->format('Y')
-                )
-                : null
         );
     }
 

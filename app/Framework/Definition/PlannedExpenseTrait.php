@@ -10,7 +10,7 @@ use Core\Interactors\PlannedExpense\DeleteByIdIAction;
 use Core\Interactors\PlannedExpense\GetExistIdAction;
 use function DI\autowire;
 
-trait PlannedExpense
+trait PlannedExpenseTrait
 {
     public static function getPlannedExpense(): array
     {

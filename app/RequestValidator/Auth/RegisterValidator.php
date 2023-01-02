@@ -7,12 +7,9 @@ use Core\BusinessRules\Auth\CheckIsUserExistsByLoginInterface;
 
 class RegisterValidator
 {
-    private CheckIsUserExistsByLoginInterface $checkIsUserExistsByLogin;
-
-    public function __construct(CheckIsUserExistsByLoginInterface $checkIsUserExistsByLogin)
-    {
-        $this->checkIsUserExistsByLogin = $checkIsUserExistsByLogin;
-    }
+    public function __construct(
+        private CheckIsUserExistsByLoginInterface $checkIsUserExistsByLogin
+    ) {}
 
     public function validate(array $data): array
     {

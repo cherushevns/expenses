@@ -7,13 +7,9 @@ use Core\Infrastructure\DataAccessors\Database\AccessToken\AccessTokenRepository
 
 class LogoutUserAction implements LogoutUserInterface
 {
-    private AccessTokenRepository $accessTokenRepository;
-
     public function __construct(
-        AccessTokenRepository $accessTokenRepository
-    ) {
-        $this->accessTokenRepository = $accessTokenRepository;
-    }
+        private AccessTokenRepository $accessTokenRepository
+    ) {}
 
     public function logout(int $userId): void
     {

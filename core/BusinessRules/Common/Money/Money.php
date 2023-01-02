@@ -4,16 +4,10 @@ namespace Core\BusinessRules\Common\Money;
 
 class Money
 {
-    private float $amount;
-    private string $currency;
-
     public function __construct(
-        float $amount,
-        string $currency
-    ) {
-        $this->amount = $amount;
-        $this->currency = $currency;
-    }
+        private float $amount,
+        private string $currency
+    ) {}
 
     public function getAmount(): float
     {

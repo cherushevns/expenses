@@ -7,16 +7,10 @@ use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
 
 class LogoutUserUseCase
 {
-    private GetAuthorizedUserIdInterface $getAuthorizedUserId;
-    private LogoutUserInterface $logoutUser;
-
     public function __construct(
-        GetAuthorizedUserIdInterface $getAuthorizedUserId,
-        LogoutUserInterface $logoutUser
-    ) {
-        $this->getAuthorizedUserId = $getAuthorizedUserId;
-        $this->logoutUser = $logoutUser;
-    }
+        private GetAuthorizedUserIdInterface $getAuthorizedUserId,
+        private LogoutUserInterface $logoutUser
+    ) {}
 
     public function logout(): void
     {

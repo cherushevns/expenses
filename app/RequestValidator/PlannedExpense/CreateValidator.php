@@ -2,11 +2,15 @@
 
 namespace App\RequestValidator\PlannedExpense;
 
+use Core\BusinessRules\ExpenseCategory\GetByIdInterface;
 use DateTimeImmutable;
 use Throwable;
 
 class CreateValidator
 {
+    public function __construct(
+        private GetByIdInterface $getById
+    ) {}
 
     public function validate(array $data): array
     {
@@ -14,8 +18,9 @@ class CreateValidator
         if (empty($data['categoryId'])) {
             $errors[] = ['field' => 'categoryId', 'error' => 'Заполните поле'];
         } else {
-
-            $errors[] = ['field' => 'categoryId', 'error' => 'Категория Вам не принадлежит @todo доделать'];
+            if (! $this->getById->get($data['categoryId'])) {
+                $errors[] = ['field' => 'categoryId', 'error' => 'Категория Вам не принадлежит @todo доделать'];
+            }
         }
 
         if (empty($data['amount'])) {
@@ -34,10 +39,6 @@ class CreateValidator
             if (! $date) {
                 $errors[] = ['field' => 'date', 'error' => 'Дата должна быть следующего формата: ГГГГ-мм'];
             }
-        }
-
-        if (! empty($errors)) {
-            return $errors;
         }
 
         return $errors;

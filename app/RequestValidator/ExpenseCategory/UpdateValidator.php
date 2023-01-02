@@ -8,13 +8,9 @@ use Core\BusinessRules\ExpenseCategory\Entity\Type;
 
 class UpdateValidator
 {
-    private CheckIsExistsInterface $checkIsExists;
-
     public function __construct(
-        CheckIsExistsInterface $checkIsExists
-    ) {
-        $this->checkIsExists = $checkIsExists;
-    }
+        private CheckIsExistsInterface $checkIsExists
+    ) {}
 
     public function validate(array $data, int $id): array
     {

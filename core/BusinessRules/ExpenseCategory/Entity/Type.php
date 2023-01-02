@@ -6,15 +6,11 @@ use RuntimeException;
 
 class Type
 {
-    private int $type;
-
-    public function __construct(int $type)
+    public function __construct(private int $type)
     {
         if (! in_array($type, TypeEnum::ALL)) {
             throw new RuntimeException('Unknown type ' . $type);
         }
-
-        $this->type = $type;
     }
 
     public function getType(): int

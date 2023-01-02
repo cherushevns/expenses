@@ -9,16 +9,10 @@ use RuntimeException;
 
 class ValidateUserPasswordAction implements ValidateUserPasswordInterface
 {
-    private UserRepository $userRepository;
-    private PasswordGenerator $passwordGenerator;
-
     public function __construct(
-        UserRepository $userRepository,
-        PasswordGenerator $passwordGenerator
-    ) {
-        $this->userRepository = $userRepository;
-        $this->passwordGenerator = $passwordGenerator;
-    }
+        private UserRepository $userRepository,
+        private PasswordGenerator $passwordGenerator
+    ) {}
 
     public function validate(string $login, string $password): bool
     {

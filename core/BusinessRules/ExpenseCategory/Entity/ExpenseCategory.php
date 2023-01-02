@@ -4,22 +4,12 @@ namespace Core\BusinessRules\ExpenseCategory\Entity;
 
 class ExpenseCategory
 {
-    private ?int $id;
-    private ?int $userId;
-    private string $title;
-    private Type $type;
-
     public function __construct(
-        ?int $id,
-        ?int $userId,
-        string $title,
-        Type $type
-    ) {
-        $this->id = $id;
-        $this->userId = $userId;
-        $this->title = $title;
-        $this->type = $type;
-    }
+        private ?int $id,
+        private ?int $userId,
+        private string $title,
+        private Type $type
+    ) {}
 
     public function getId(): ?int
     {

@@ -9,16 +9,10 @@ use Core\Interactors\PlannedExpense\Model\PlannedExpenseModel;
 
 class GetExistIdAction implements GetExistIdInterface
 {
-    private PlannedExpenseRepository $plannedExpenseRepository;
-    private PlannedExpenseModel $plannedExpenseModel;
-
     public function __construct(
-        PlannedExpenseRepository $plannedExpenseRepository,
-        PlannedExpenseModel $plannedExpenseModel
-    ) {
-        $this->plannedExpenseRepository = $plannedExpenseRepository;
-        $this->plannedExpenseModel = $plannedExpenseModel;
-    }
+        private PlannedExpenseRepository $plannedExpenseRepository,
+        private PlannedExpenseModel $plannedExpenseModel
+    ) {}
 
     public function get(PlannedExpense $plannedExpense): ?int
     {

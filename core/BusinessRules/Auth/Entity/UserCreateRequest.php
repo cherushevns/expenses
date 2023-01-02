@@ -1,25 +1,15 @@
 <?php
 
-namespace Core\BusinessRules\Auth;
+namespace Core\BusinessRules\Auth\Entity;
 
 class UserCreateRequest
 {
-    private string $name;
-    private string $login;
-    private string $email;
-    private string $password;
-
     public function __construct(
-        string $name,
-        string $login,
-        string $email,
-        string $password
-    ) {
-        $this->name = $name;
-        $this->login = $login;
-        $this->email = $email;
-        $this->password = $password;
-    }
+        private string $name,
+        private string $login,
+        private string $email,
+        private string $password
+    ) {}
 
     public function getName(): string
     {

@@ -7,13 +7,9 @@ use Core\Infrastructure\DataAccessors\Database\PlannedExpense\PlannedExpenseRepo
 
 class DeleteByIdIAction implements DeleteByIdInterface
 {
-    private PlannedExpenseRepository $plannedExpenseRepository;
-
     public function __construct(
-        PlannedExpenseRepository $plannedExpenseRepository
-    ) {
-        $this->plannedExpenseRepository = $plannedExpenseRepository;
-    }
+        private PlannedExpenseRepository $plannedExpenseRepository
+    ) {}
 
     public function delete(int $id): void
     {

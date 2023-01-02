@@ -8,12 +8,9 @@ use RuntimeException;
 
 class GetUserIdByLoginAction implements GetUserIdByLoginInterface
 {
-    private UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(
+        private UserRepository $userRepository
+    ) {}
 
     public function get(string $login): int
     {

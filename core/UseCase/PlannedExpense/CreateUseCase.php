@@ -9,19 +9,11 @@ use Core\BusinessRules\PlannedExpense\GetExistIdInterface;
 
 class CreateUseCase
 {
-    private GetExistIdInterface $getExistId;
-    private DeleteByIdInterface $deleteById;
-    private CreateInterface $create;
-
     public function __construct(
-        GetExistIdInterface $getExistId,
-        DeleteByIdInterface $deleteById,
-        CreateInterface $create
-    ) {
-        $this->getExistId = $getExistId;
-        $this->deleteById = $deleteById;
-        $this->create = $create;
-    }
+        private GetExistIdInterface $getExistId,
+        private DeleteByIdInterface $deleteById,
+        private CreateInterface $create
+    ) {}
 
     public function create(PlannedExpense $plannedExpense): void
     {

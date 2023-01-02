@@ -8,16 +8,10 @@ use Core\BusinessRules\Auth\ValidateUserPasswordInterface;
 
 class LoginValidator
 {
-    private CheckIsUserExistsByLoginInterface $checkIsUserExistsByLogin;
-    private ValidateUserPasswordInterface $validateUserPassword;
-
     public function __construct(
-        CheckIsUserExistsByLoginInterface $checkIsUserExistsByLogin,
-        ValidateUserPasswordInterface $validateUserPassword
-    ) {
-        $this->checkIsUserExistsByLogin = $checkIsUserExistsByLogin;
-        $this->validateUserPassword = $validateUserPassword;
-    }
+        private CheckIsUserExistsByLoginInterface $checkIsUserExistsByLogin,
+        private ValidateUserPasswordInterface $validateUserPassword
+    ) {}
 
     public function validate(array $data): array
     {

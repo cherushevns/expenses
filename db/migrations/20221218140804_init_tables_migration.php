@@ -91,7 +91,7 @@ create table actual_expense
     amount              decimal(16,2) not null,
     currency            varchar(255) not null,
     title               varchar(255) not null,
-    spent_at            datetime
+    spent_at            datetime not null
 );
 SQL;
         $this->query($sql);

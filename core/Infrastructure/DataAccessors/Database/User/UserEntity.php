@@ -4,28 +4,14 @@ namespace Core\Infrastructure\DataAccessors\Database\User;
 
 class UserEntity
 {
-    private ?int $id;
-    private string $name;
-    private string $login;
-    private string $email;
-    private string $password;
-    private string $passwordHash;
-
     public function __construct(
-        ?int $id,
-        string $name,
-        string $login,
-        string $email,
-        string $password,
-        string $passwordHash
-    ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->login = $login;
-        $this->email = $email;
-        $this->password = $password;
-        $this->passwordHash = $passwordHash;
-    }
+        private ?int $id,
+        private string $name,
+        private string $login,
+        private string $email,
+        private string $password,
+        private string $passwordHash
+    ) {}
 
     public function getId(): ?int
     {

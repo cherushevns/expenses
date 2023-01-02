@@ -10,19 +10,11 @@ use Core\BusinessRules\Common\Money\Money;
  */
 class PlannedExpense
 {
-    private int $categoryId;
-    private Money $money;
-    private ?MonthAndYear $monthAndYear;
-
     public function __construct(
-        int $categoryId,
-        Money $money,
-        ?MonthAndYear $monthAndYear
-    ) {
-        $this->categoryId = $categoryId;
-        $this->money = $money;
-        $this->monthAndYear = $monthAndYear;
-    }
+        private int $categoryId,
+        private Money $money,
+        private ?MonthAndYear $monthAndYear
+    ) {}
 
     public function getCategoryId(): int
     {

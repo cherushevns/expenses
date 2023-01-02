@@ -14,16 +14,10 @@ use Slim\Http\ServerRequest;
 
 class CreateController extends AbstractController
 {
-    private CreateValidator $createValidator;
-    private CreateUseCase $createUseCase;
-
     public function __construct(
-        CreateValidator $createValidator,
-        CreateUseCase $createUseCase
-    ) {
-        $this->createValidator = $createValidator;
-        $this->createUseCase = $createUseCase;
-    }
+        private CreateValidator $createValidator,
+        private CreateUseCase $createUseCase
+    ) {}
 
     public function __invoke(ServerRequest $request, Response $response): Response
     {

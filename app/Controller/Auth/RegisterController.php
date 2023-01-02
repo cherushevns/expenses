@@ -4,23 +4,17 @@ namespace App\Controller\Auth;
 
 use App\Controller\AbstractController;
 use App\RequestValidator\Auth\RegisterValidator;
-use Core\BusinessRules\Auth\UserCreateRequest;
+use Core\BusinessRules\Auth\Entity\UserCreateRequest;
 use Core\UseCase\Auth\RegisterUserUseCase;
-use Slim\Http\ServerRequest;
 use Slim\Http\Response;
+use Slim\Http\ServerRequest;
 
 class RegisterController extends AbstractController
 {
-    private RegisterValidator $registerValidator;
-    private RegisterUserUseCase $registerUserUseCase;
-
     public function __construct(
-        RegisterValidator $registerValidator,
-        RegisterUserUseCase $registerUserUseCase
-    ) {
-        $this->registerValidator = $registerValidator;
-        $this->registerUserUseCase = $registerUserUseCase;
-    }
+        private RegisterValidator $registerValidator,
+        private RegisterUserUseCase $registerUserUseCase
+    ) {}
 
     public function __invoke(ServerRequest $request, Response $response): Response
     {

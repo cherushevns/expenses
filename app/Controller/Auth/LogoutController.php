@@ -9,13 +9,9 @@ use Slim\Http\Response;
 
 class LogoutController extends AbstractController
 {
-    private LogoutUserUseCase $logoutUserUseCase;
-
     public function __construct(
-        LogoutUserUseCase $logoutUserUseCase
-    ) {
-        $this->logoutUserUseCase = $logoutUserUseCase;
-    }
+        private LogoutUserUseCase $logoutUserUseCase
+    ) {}
 
     public function __invoke(ServerRequest $request, Response $response): Response
     {

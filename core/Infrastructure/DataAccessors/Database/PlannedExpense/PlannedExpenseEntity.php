@@ -6,22 +6,12 @@ use DateTimeImmutable;
 
 class PlannedExpenseEntity
 {
-    private int $categoryId;
-    private float $amount;
-    private string $currency;
-    private ?DateTimeImmutable $willBeSpentAt;
-
     public function __construct(
-        int $categoryId,
-        float $amount,
-        string $currency,
-        ?DateTimeImmutable $willBeSpentAt
-    ) {
-        $this->categoryId = $categoryId;
-        $this->amount = $amount;
-        $this->currency = $currency;
-        $this->willBeSpentAt = $willBeSpentAt;
-    }
+        private int $categoryId,
+        private float $amount,
+        private string $currency,
+        private ?DateTimeImmutable $willBeSpentAt
+    ) {}
 
     public function getCategoryId(): int
     {

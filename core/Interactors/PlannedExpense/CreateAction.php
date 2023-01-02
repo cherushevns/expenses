@@ -9,16 +9,10 @@ use Core\Interactors\PlannedExpense\Model\PlannedExpenseModel;
 
 class CreateAction implements CreateInterface
 {
-    private PlannedExpenseRepository $plannedExpenseRepository;
-    private PlannedExpenseModel $plannedExpenseModel;
-
     public function __construct(
-        PlannedExpenseRepository $plannedExpenseRepository,
-        PlannedExpenseModel $plannedExpenseModel
-    ) {
-        $this->plannedExpenseRepository = $plannedExpenseRepository;
-        $this->plannedExpenseModel = $plannedExpenseModel;
-    }
+        private PlannedExpenseRepository $plannedExpenseRepository,
+        private PlannedExpenseModel $plannedExpenseModel
+    ) {}
 
     public function create(PlannedExpense $plannedExpense): void
     {

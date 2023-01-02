@@ -2,11 +2,11 @@
 
 namespace Core\Interactors\Auth\Model;
 
-use Core\BusinessRules\Auth\AccessToken;
+use Core\BusinessRules\Auth\Entity\AccessToken;
 use Core\Infrastructure\DataAccessors\Database\AccessToken\AccessTokenEntity;
 use Core\Infrastructure\Uuid\UuidGenerator;
-use DateTimeImmutable;
 use DateInterval;
+use DateTimeImmutable;
 
 class AccessTokenModel
 {
@@ -19,7 +19,7 @@ class AccessTokenModel
         $this->uuidGenerator = $uuidGenerator;
     }
 
-    public function toDb(int $userId): AccessTokenEntity
+    public function toData(int $userId): AccessTokenEntity
     {
         return new AccessTokenEntity(
             $userId,

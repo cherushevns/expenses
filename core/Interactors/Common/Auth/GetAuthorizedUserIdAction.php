@@ -10,12 +10,9 @@ use Slim\Psr7\Factory\ServerRequestFactory;
 
 class GetAuthorizedUserIdAction implements GetAuthorizedUserIdInterface
 {
-    private AccessTokenRepository $accessTokenRepository;
-
-    public function __construct(AccessTokenRepository $accessTokenRepository)
-    {
-        $this->accessTokenRepository = $accessTokenRepository;
-    }
+    public function __construct(
+        private AccessTokenRepository $accessTokenRepository
+    ) {}
 
     public function get(): int
     {

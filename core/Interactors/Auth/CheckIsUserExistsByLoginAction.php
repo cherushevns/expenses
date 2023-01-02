@@ -7,12 +7,9 @@ use Core\Infrastructure\DataAccessors\Database\User\UserRepository;
 
 class CheckIsUserExistsByLoginAction implements CheckIsUserExistsByLoginInterface
 {
-    private UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(
+        private UserRepository $userRepository
+    ) {}
 
     public function check(string $login): bool
     {

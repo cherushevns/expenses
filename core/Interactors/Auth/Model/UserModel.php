@@ -2,7 +2,7 @@
 
 namespace Core\Interactors\Auth\Model;
 
-use Core\BusinessRules\Auth\UserCreateRequest;
+use Core\BusinessRules\Auth\Entity\UserCreateRequest;
 use Core\Infrastructure\DataAccessors\Database\User\UserEntity;
 use Core\Infrastructure\Password\EncryptedPassword;
 use Core\Infrastructure\Password\PasswordGenerator;
@@ -16,7 +16,7 @@ class UserModel
         $this->passwordGenerator = $passwordGenerator;
     }
 
-    public function toDb(UserCreateRequest $userCreateRequest): UserEntity
+    public function toData(UserCreateRequest $userCreateRequest): UserEntity
     {
         $encryptedPassword = $this->encryptPassword($userCreateRequest->getPassword());
 

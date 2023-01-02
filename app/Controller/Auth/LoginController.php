@@ -10,16 +10,10 @@ use Slim\Http\Response;
 
 class LoginController extends AbstractController
 {
-    private LoginValidator $loginValidator;
-    private LoginUserUseCase $loginUserUseCase;
-
     public function __construct(
-        LoginValidator $loginValidator,
-        LoginUserUseCase $loginUserUseCase
-    ) {
-        $this->loginValidator = $loginValidator;
-        $this->loginUserUseCase = $loginUserUseCase;
-    }
+        private LoginValidator $loginValidator,
+        private LoginUserUseCase $loginUserUseCase
+    ) {}
 
     public function __invoke(ServerRequest $request, Response $response): Response
     {

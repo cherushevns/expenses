@@ -12,16 +12,10 @@ use Slim\Http\ServerRequest;
 
 class UpdateController extends AbstractController
 {
-    private UpdateValidator $updateValidator;
-    private UpdateUseCase $updateUseCase;
-
     public function __construct(
-        UpdateValidator $updateValidator,
-        UpdateUseCase $updateUseCase
-    ) {
-        $this->updateValidator = $updateValidator;
-        $this->updateUseCase = $updateUseCase;
-    }
+        private UpdateValidator $updateValidator,
+        private UpdateUseCase $updateUseCase
+    ) {}
 
     public function __invoke(ServerRequest $request, Response $response, array $arguments): Response
     {

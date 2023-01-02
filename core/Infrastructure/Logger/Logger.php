@@ -9,12 +9,10 @@ use Monolog\Handler\StreamHandler;
 class Logger implements LoggerInterface
 {
     private static ?self $instance = null;
-    private PsrLoggerInterface $psrLogger;
 
     private function __construct(
-        PsrLoggerInterface $psrLogger
+        private PsrLoggerInterface $psrLogger
     ) {
-        $this->psrLogger = $psrLogger;
     }
 
     /**

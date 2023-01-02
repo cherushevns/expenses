@@ -74,7 +74,23 @@ SQL;
             'title' => $expenseCategory->getTitle(),
             'userId' => $expenseCategory->getUserId()
         ], $addParameters));
+    }
 
+    public function getByIdAndUserId(int $id, int $userId): ?ExpenseCategoryEntity
+    {
+        $sql = <<<SQL
+SELECT * FROM expense_category
+WHERE
+    id = :id AND
+    user_id = :userId
+SQL;
+
+        $row = $this->connection->fetchOne($sql, [
+            'id' => $id,
+            'userId' => $userId
+        ]);
+
+        return $row ? $this->makeEntityFromRow($row) : null;
     }
 
     /**

@@ -6,19 +6,11 @@ use DateTimeImmutable;
 
 class AccessTokenEntity
 {
-    private int $userId;
-    private string $accessToken;
-    private DateTimeImmutable $expiresAt;
-
     public function __construct(
-        int $userId,
-        string $accessToken,
-        DateTimeImmutable $expiresAt
-    ) {
-        $this->userId = $userId;
-        $this->accessToken = $accessToken;
-        $this->expiresAt = $expiresAt;
-    }
+        private int $userId,
+        private string $accessToken,
+        private DateTimeImmutable $expiresAt
+    ) {}
 
     public function getUserId(): int
     {

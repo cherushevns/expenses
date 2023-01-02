@@ -10,19 +10,11 @@ use Core\Interactors\ExpenseCategory\Model\ExpenseCategoryModel;
 
 class CheckIsExistsAction implements CheckIsExistsInterface
 {
-    private ExpenseCategoryRepository $expenseCategoryRepository;
-    private ExpenseCategoryModel $expenseCategoryModel;
-    private GetAuthorizedUserIdInterface $getAuthorizedUserId;
-
     public function __construct(
-        ExpenseCategoryRepository $expenseCategoryRepository,
-        ExpenseCategoryModel $expenseCategoryModel,
-        GetAuthorizedUserIdInterface $getAuthorizedUserId
-    ) {
-        $this->expenseCategoryRepository = $expenseCategoryRepository;
-        $this->expenseCategoryModel = $expenseCategoryModel;
-        $this->getAuthorizedUserId = $getAuthorizedUserId;
-    }
+        private ExpenseCategoryRepository $expenseCategoryRepository,
+        private ExpenseCategoryModel $expenseCategoryModel,
+        private GetAuthorizedUserIdInterface $getAuthorizedUserId
+    ) {}
 
     public function check(ExpenseCategory $expense): bool
     {

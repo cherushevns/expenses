@@ -7,6 +7,8 @@ use App\Framework\Application\RouteTrait;
 use Dotenv\Dotenv;
 use Slim\App;
 use Slim\Factory\AppFactory;
+use League\OpenAPIValidation\PSR15\ValidationMiddlewareBuilder;
+use League\OpenAPIValidation\PSR15\SlimAdapter;
 
 class AppBuilder
 {
@@ -35,7 +37,6 @@ class AppBuilder
 
         // @todo добавить валидацию OpenAPI
         $app->addBodyParsingMiddleware();
-
         self::addMiddlewares($app);
 
         // @todo добавить свой errorHandler, который будет парсить ошибки в JSON и

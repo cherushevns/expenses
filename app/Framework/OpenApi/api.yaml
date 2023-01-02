@@ -1,0 +1,12 @@
+openapi: 3.0.1
+
+info:
+  title: Expenses API
+  version: 1.0.0
+
+paths:
+  # Expenses
+  /v1/expense:
+    $ref: 'Expense.yaml#/LowFareSearch'
+
+

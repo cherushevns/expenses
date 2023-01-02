@@ -1,3 +1,5 @@
+## Init
+
 ```bash
 cp .env.example .env
 ```
@@ -16,4 +18,21 @@ composer install
 
 ```bash
 php vendor/bin/phinx migrate
+```
+
+## Broke something? Try:
+```bash
+docker-compose down; docker-compose kill;
+```
+
+```bash
+docker rm --force $(docker ps -aq)
+```
+
+```bash
+docker system prune -a -f 
+```
+
+```bash
+docker-compose up -d --build
 ```

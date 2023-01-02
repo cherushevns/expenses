@@ -1,22 +1,22 @@
 <?php
 
-namespace Core\Interactors\Expense;
+namespace Core\Interactors\ExpenseCategory;
 
 use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
-use Core\BusinessRules\Expense\CheckIsExpenseExistsInterface;
-use Core\BusinessRules\Expense\Entity\Expense;
-use Core\Infrastructure\DataAccessors\Database\Expense\ExpenseRepository;
-use Core\Interactors\Expense\Model\ExpenseModel;
+use Core\BusinessRules\ExpenseCategory\CheckIsExistsInterface;
+use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\Infrastructure\DataAccessors\Database\ExpenseCategory\ExpenseCategoryRepository;
+use Core\Interactors\ExpenseCategory\Model\ExpenseCategoryModel;
 
-class CheckIsExpenseExistsAction implements CheckIsExpenseExistsInterface
+class CheckIsExistsAction implements CheckIsExistsInterface
 {
-    private ExpenseRepository $expenseRepository;
-    private ExpenseModel $expenseModel;
+    private ExpenseCategoryRepository $expenseRepository;
+    private ExpenseCategoryModel $expenseModel;
     private GetAuthorizedUserIdInterface $getAuthorizedUserId;
 
     public function __construct(
-        ExpenseRepository $expenseRepository,
-        ExpenseModel $expenseModel,
+        ExpenseCategoryRepository    $expenseRepository,
+        ExpenseCategoryModel         $expenseModel,
         GetAuthorizedUserIdInterface $getAuthorizedUserId
     ) {
         $this->expenseRepository = $expenseRepository;

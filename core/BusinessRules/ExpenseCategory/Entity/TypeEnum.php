@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\BusinessRules\Expense\Entity;
+namespace Core\BusinessRules\ExpenseCategory\Entity;
 
 class TypeEnum
 {

@@ -8,7 +8,7 @@ final class InitTablesMigration extends AbstractMigration
     public function change()
     {
         $this->createAccessTokenTable();
-        $this->createExpenseTable();
+        $this->createExpenseCategoryTable();
         $this->createUserTable();
     }
 
@@ -26,11 +26,11 @@ SQL;
         $this->query($sql);
     }
 
-    private function createExpenseTable(): void
+    private function createExpenseCategoryTable(): void
     {
         $sql = <<<SQL
 -- auto-generated definition
-create table expense
+create table expense_category
 (
     id      int auto_increment
         primary key,

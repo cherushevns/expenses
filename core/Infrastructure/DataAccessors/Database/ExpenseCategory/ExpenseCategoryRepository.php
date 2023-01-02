@@ -1,10 +1,10 @@
 <?php
 
-namespace Core\Infrastructure\DataAccessors\Database\Expense;
+namespace Core\Infrastructure\DataAccessors\Database\ExpenseCategory;
 
 use Core\Infrastructure\DataAccessors\Database\ConnectionInterface;
 
-class ExpenseRepository
+class ExpenseCategoryRepository
 {
     private ConnectionInterface $connection;
 
@@ -13,10 +13,10 @@ class ExpenseRepository
         $this->connection = $connection;
     }
 
-    public function create(ExpenseEntity $expenseEntity): int
+    public function create(ExpenseCategoryEntity $expenseEntity): int
     {
         $sql = <<<SQL
-INSERT INTO expense
+INSERT INTO expense_category
 SET
     title = :title,
     user_id = :userId,
@@ -32,10 +32,10 @@ SQL;
         return $this->connection->getLastInsertId();
     }
 
-    public function update(ExpenseEntity $expenseEntity): void
+    public function update(ExpenseCategoryEntity $expenseEntity): void
     {
         $sql = <<<SQL
-UPDATE expense
+UPDATE expense_category
 SET
     title = :title,
     type = :type
@@ -50,7 +50,7 @@ SQL;
         ]);
     }
 
-    public function checkIsExists(ExpenseEntity $expenseEntity): bool
+    public function checkIsExists(ExpenseCategoryEntity $expenseEntity): bool
     {
         $addWhere = '';
         $addParameters = [];
@@ -61,7 +61,7 @@ SQL;
         }
 
         $sql = <<<SQL
-SELECT * FROM expense 
+SELECT * FROM expense_category 
 WHERE 
     type = :type AND 
     title = :title AND
@@ -79,12 +79,12 @@ SQL;
 
     /**
      * @param int $userId
-     * @return ExpenseEntity[]
+     * @return ExpenseCategoryEntity[]
      */
     public function getAllByUser(int $userId): array
     {
         $sql = <<<SQL
-SELECT * FROM expense WHERE user_id = :userId
+SELECT * FROM expense_category WHERE user_id = :userId
 SQL;
 
         $result = $this->connection->fetchAll($sql, [
@@ -96,19 +96,19 @@ SQL;
 
     /**
      * @param array $rows
-     * @return ExpenseEntity[]
+     * @return ExpenseCategoryEntity[]
      */
     private function makeEntitiesFromRows(array $rows): array
     {
         return array_map(
-            fn (array $row): ExpenseEntity => $this->makeEntityFromRow($row),
+            fn (array $row): ExpenseCategoryEntity => $this->makeEntityFromRow($row),
             $rows
         );
     }
 
-    private function makeEntityFromRow(array $row): ExpenseEntity
+    private function makeEntityFromRow(array $row): ExpenseCategoryEntity
     {
-        return new ExpenseEntity(
+        return new ExpenseCategoryEntity(
             $row['id'],
             $row['title'],
             $row['user_id'],

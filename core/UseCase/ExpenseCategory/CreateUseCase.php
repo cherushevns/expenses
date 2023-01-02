@@ -1,27 +1,27 @@
 <?php
 
-namespace Core\UseCase\Expense;
+namespace Core\UseCase\ExpenseCategory;
 
 use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
-use Core\BusinessRules\Expense\UpdateExpenseInterface;
-use Core\BusinessRules\Expense\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\CreateInterface;
+use Core\BusinessRules\ExpenseCategory\Entity\Expense;
 
-class UpdateUseCase
+class CreateUseCase
 {
-    private UpdateExpenseInterface $updateExpense;
+    private CreateInterface $create;
     private GetAuthorizedUserIdInterface $getAuthorizedUserId;
 
     public function __construct(
-        UpdateExpenseInterface $updateExpense,
+        CreateInterface $create,
         GetAuthorizedUserIdInterface $getAuthorizedUserId
     ) {
-        $this->updateExpense = $updateExpense;
+        $this->create = $create;
         $this->getAuthorizedUserId = $getAuthorizedUserId;
     }
 
-    public function update(Expense $expense): void
+    public function create(Expense $expense): int
     {
         $expense->setUserId($this->getAuthorizedUserId->get()); // По-идее бы в фабрику утащить, но для MVP и так сойдёт
-        $this->updateExpense->update($expense);
+        return $this->create->create($expense);
     }
 }

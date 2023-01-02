@@ -10,7 +10,7 @@ class ContainerBuilder
 {
     use Definition\InfrastructureTrait;
     use Definition\AuthTrait;
-    use Definition\ExpenseTrait;
+    use Definition\ExpenseCategoryTrait;
     use Definition\CommonTrait;
 
     public static function build(): Container

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller\Expense;
+namespace App\Controller\ExpenseCategory;
 
 use App\Controller\AbstractController;
 use App\View\Expense\ExpenseView;
-use Core\UseCase\Expense\GetAllUseCase;
+use Core\UseCase\ExpenseCategory\GetAllUseCase;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 
@@ -23,8 +23,7 @@ class GetAllController extends AbstractController
 
     public function __invoke(ServerRequest $request, Response $response): Response
     {
-        $userId = $request->getAttribute('userId');
-        $expenses = $this->getAllUseCase->get($userId);
+        $expenses = $this->getAllUseCase->get();
 
         return $this->sendSuccessResponse(
             $this->expenseView->fromBusinessToView($expenses),

@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\BusinessRules\Expense\Entity;
+namespace Core\BusinessRules\ExpenseCategory\Entity;
 
 use RuntimeException;
 
@@ -10,7 +10,7 @@ class Type
 
     public function __construct(int $type)
     {
-        if (! in_array($this, TypeEnum::ALL)) {
+        if (! in_array($type, TypeEnum::ALL)) {
             throw new RuntimeException('Unknown type ' . $type);
         }
 

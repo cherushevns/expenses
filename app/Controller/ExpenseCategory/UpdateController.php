@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Expense;
+namespace App\Controller\ExpenseCategory;
 
 use App\Controller\AbstractController;
-use App\RequestValidator\Expense\UpdateValidator;
-use Core\BusinessRules\Expense\Entity\Expense;
-use Core\BusinessRules\Expense\Entity\Type;
-use Core\UseCase\Expense\UpdateUseCase;
+use App\RequestValidator\ExpenseCategory\UpdateValidator;
+use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\Type;
+use Core\UseCase\ExpenseCategory\UpdateUseCase;
 use Slim\Http\Response;
 use Slim\Http\ServerRequest;
 

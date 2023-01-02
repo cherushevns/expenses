@@ -1,23 +1,23 @@
 <?php
 
-namespace Core\BusinessRules\Expense\Entity;
+namespace Core\Infrastructure\DataAccessors\Database\ExpenseCategory;
 
-class Expense
+class ExpenseCategoryEntity
 {
     private ?int $id;
-    private ?int $userId;
     private string $title;
-    private Type $type;
+    private int $userId;
+    private int $type;
 
     public function __construct(
         ?int $id,
-        ?int $userId,
         string $title,
-        Type $type
+        int $userId,
+        int $type
     ) {
         $this->id = $id;
-        $this->userId = $userId;
         $this->title = $title;
+        $this->userId = $userId;
         $this->type = $type;
     }
 
@@ -31,18 +31,13 @@ class Expense
         return $this->title;
     }
 
-    public function getUserId(): ?int
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function setUserId(int $userId): void
-    {
-        $this->userId = $userId;
-    }
-
     public function getType(): int
     {
-        return $this->type->getType();
+        return $this->type;
     }
 }

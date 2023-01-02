@@ -2,8 +2,8 @@
 
 namespace App\View\Expense;
 
-use Core\BusinessRules\Expense\Entity\Expense;
-use Core\BusinessRules\Expense\Entity\TypeEnum;
+use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\TypeEnum;
 
 class ExpenseView
 {

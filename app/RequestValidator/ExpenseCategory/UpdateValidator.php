@@ -1,19 +1,19 @@
 <?php
 
-namespace App\RequestValidator\Expense;
+namespace App\RequestValidator\ExpenseCategory;
 
-use Core\BusinessRules\Expense\CheckIsExpenseExistsInterface;
-use Core\BusinessRules\Expense\Entity\Expense;
-use Core\BusinessRules\Expense\Entity\Type;
+use Core\BusinessRules\ExpenseCategory\CheckIsExistsInterface;
+use Core\BusinessRules\ExpenseCategory\Entity\Expense;
+use Core\BusinessRules\ExpenseCategory\Entity\Type;
 
 class UpdateValidator
 {
-    private CheckIsExpenseExistsInterface $checkIsExpenseExists;
+    private CheckIsExistsInterface $checkIsExists;
 
     public function __construct(
-        CheckIsExpenseExistsInterface $checkIsExpenseExists
+        CheckIsExistsInterface $checkIsExists
     ) {
-        $this->checkIsExpenseExists = $checkIsExpenseExists;
+        $this->checkIsExists = $checkIsExists;
     }
 
     public function validate(array $data, int $id): array
@@ -39,7 +39,7 @@ class UpdateValidator
             new Type($data['type'])
         );
 
-        if ($this->checkIsExpenseExists->check($expense)) {
+        if ($this->checkIsExists->check($expense)) {
             $errors[] = ['field' => 'title', 'error' => 'В данной категории запись с таким названием уже существует'];
         }
 

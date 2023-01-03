@@ -19,7 +19,7 @@ class CreateValidator
             $errors[] = ['field' => 'categoryId', 'error' => 'Заполните поле'];
         } else {
             if (! $this->getById->get($data['categoryId'])) {
-                $errors[] = ['field' => 'categoryId', 'error' => 'Категория Вам не принадлежит @todo доделать'];
+                $errors[] = ['field' => 'categoryId', 'error' => 'Категория Вам не принадлежит'];
             }
         }
 

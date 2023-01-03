@@ -3,6 +3,7 @@
 namespace App\View\Report;
 
 use Core\BusinessRules\Common\Money\Money;
+use Core\BusinessRules\ExpenseCategory\GetByIdInterface;
 use Core\BusinessRules\Report\Entity\ActualExpense;
 use Core\BusinessRules\Report\Entity\ExpenseCategory;
 use Core\BusinessRules\Report\Entity\ExpensePeriod;
@@ -15,6 +16,10 @@ use DateTimeImmutable;
 
 class View
 {
+    public function __construct(
+        private GetByIdInterface $getById // @todo утащить в модель
+    ) {}
+
     public function toView(Report $report): array
     {
         return [
@@ -64,7 +69,7 @@ class View
                 'categories' => array_map(
                     fn (ExpenseCategory $category): array => [
                         'id' => $category->getCategoryId(),
-                        'name' => 'Test name', // @todo todo
+                        'name' => $this->getById->get($category->getCategoryId())->getTitle(),
                         'periods' => array_map(
                             fn (ExpensePeriod $period): array => [
                                 'date' => $period->getDate()->format('m.Y'),

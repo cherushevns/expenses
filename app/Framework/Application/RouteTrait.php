@@ -19,6 +19,7 @@ trait RouteTrait
             $group->group('/expense-category', function(RouteCollectorProxy $group): void {
                 $group->post('', ExpenseCategory\CreateController::class);
                 $group->put('/{id}', ExpenseCategory\UpdateController::class);
+                $group->delete('/{id}', ExpenseCategory\DeleteController::class);
             });
             $group->group('/planned-expense', function(RouteCollectorProxy $group): void {
                 $group->post('', PlannedExpense\CreateController::class);

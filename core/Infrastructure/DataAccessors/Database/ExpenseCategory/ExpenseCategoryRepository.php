@@ -112,6 +112,15 @@ SQL;
         return $rows ? $this->makeEntitiesFromRows($rows) : [];
     }
 
+    public function deleteById(int $id): void
+    {
+        $sql = <<<SQL
+DELETE FROM expense_category WHERE id = :id
+SQL;
+
+        $this->connection->query($sql, ['id' => $id]);
+    }
+
     /**
      * @param array $rows
      * @return ExpenseCategoryEntity[]

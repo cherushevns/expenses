@@ -6,6 +6,7 @@ use Core\BusinessRules\Common\Auth\GetAuthorizedUserIdInterface;
 use Core\BusinessRules\ExpenseCategory\CheckIsExistsInterface;
 use Core\BusinessRules\ExpenseCategory\Entity\ExpenseCategory;
 use Core\BusinessRules\ExpenseCategory\Entity\Type;
+use Core\BusinessRules\ExpenseCategory\Entity\TypeEnum;
 
 class CreateValidator
 {
@@ -21,6 +22,8 @@ class CreateValidator
         }
 
         if (empty($data['type'])) {
+            $errors[] = ['field' => 'type', 'error' => 'Заполните поле'];
+        } elseif (! in_array($data['type'], TypeEnum::ALL)) {
             $errors[] = ['field' => 'type', 'error' => 'Заполните поле'];
         }
 

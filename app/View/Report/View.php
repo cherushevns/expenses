@@ -36,7 +36,8 @@ class View
                             fn (IncomeEntry $entry): array => [
                                 'id' => $entry->getId(),
                                 'title' => $entry->getTitle(),
-                                'money' => $this->makeViewMoney($entry->getMoney())
+                                'money' => $this->makeViewMoney($entry->getMoney()),
+                                'earnedAt' => $entry->getEarnedAt()->format('d.m.Y')
                             ],
                             $period->getEntries()
                         )
@@ -50,6 +51,7 @@ class View
                         'date' => $period->getDate()->format('m.Y'),
                         'totalActual' => $this->makeViewMoney($period->getTotalActual()),
                         'totalPlanned' => $this->makeViewMoney($period->getTotalPlanned()),
+                        'limitPercent' => $period->getLimitPercent()
                     ],
                     $report->getRemains()->getPeriods()
                 )
@@ -60,7 +62,7 @@ class View
                         'date' => $period->getDate()->format('m.Y'),
                         'planned' => $this->makeViewMoney($period->getPlanned()),
                         'actual' => $this->makeViewMoney($period->getActual()),
-                        'limitPercent' => $period->getPercent()
+                        'limitPercent' => $period->getLimitPercent()
                     ],
                     $report->getTotalExpenses()->getPeriods()
                 )
@@ -69,7 +71,7 @@ class View
                 'categories' => array_map(
                     fn (ExpenseCategory $category): array => [
                         'id' => $category->getCategoryId(),
-                        'name' => $this->getById->get($category->getCategoryId())->getTitle(),
+                        'title' => $this->getById->get($category->getCategoryId())->getTitle(),
                         'periods' => array_map(
                             fn (ExpensePeriod $period): array => [
                                 'date' => $period->getDate()->format('m.Y'),
@@ -81,7 +83,7 @@ class View
                                         'id' => $actualExpense->getId(),
                                         'title' => $actualExpense->getTitle(),
                                         'money' => $this->makeViewMoney($actualExpense->getMoney()),
-                                        'date' => $actualExpense->getSpentAt()->format('d.m.Y')
+                                        'spentAt' => $actualExpense->getSpentAt()->format('d.m.Y')
                                     ],
                                     $period->getActualExpenses()
                                 ),

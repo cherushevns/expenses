@@ -10,7 +10,8 @@ class RemainPeriod
     public function __construct(
         private DateTimeImmutable $date,
         private Money $totalPlanned,
-        private Money $totalActual
+        private Money $totalActual,
+        private float $limitPercent
     ) {}
 
     public function getDate(): DateTimeImmutable
@@ -26,5 +27,10 @@ class RemainPeriod
     public function getTotalPlanned(): Money
     {
         return $this->totalPlanned;
+    }
+
+    public function getLimitPercent(): float
+    {
+        return $this->limitPercent;
     }
 }

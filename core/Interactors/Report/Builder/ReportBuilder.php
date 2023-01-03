@@ -119,7 +119,8 @@ class ReportBuilder
                 $entries[] = new IncomeEntry(
                     $income->getId(),
                     $income->getTitle(),
-                    $this->makeMoney($income->getAmount(), $income->getCurrency())
+                    $this->makeMoney($income->getAmount(), $income->getCurrency()),
+                    $income->getEarnedAt()
                 );
             }
         }
@@ -320,6 +321,7 @@ class ReportBuilder
         Incomes $incomes,
         TotalExpenses $totalExpenses
     ): Remains {
+        // @todo impl remain from last period!!!
         $remainsPeriods = [];
         foreach ($incomes->getPeriods() as $period) {
             $expensePeriod = $this->resolveExpensePeriodByDate($totalExpenses, $period->getDate());
@@ -331,6 +333,7 @@ class ReportBuilder
                 $period->getDate(),
                 $remainPlanned,
                 $remainActual,
+                $this->calculatePercentForPlannedAndActual($remainPlanned, $remainActual)
             );
         }
 

@@ -18,9 +18,6 @@ class AbstractController
     {
         return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
             ->withStatus(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR)
             ->write(json_encode(['status' => 'validation-error', 'errors' => $errors]));
     }
@@ -29,9 +26,6 @@ class AbstractController
     {
         return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
             ->withStatus(StatusCodeInterface::STATUS_OK)
             ->write(json_encode(['status' => 'success', 'response' => $data]));
     }

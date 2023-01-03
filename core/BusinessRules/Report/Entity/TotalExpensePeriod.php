@@ -11,7 +11,7 @@ class TotalExpensePeriod
         private DateTimeImmutable $date,
         private Money $planned,
         private Money $actual,
-        private float $percent
+        private float $limitPercent
     ) {}
 
     public function getDate(): DateTimeImmutable
@@ -29,8 +29,8 @@ class TotalExpensePeriod
         return $this->actual;
     }
 
-    public function getPercent(): float
+    public function getLimitPercent(): float
     {
-        return $this->percent;
+        return $this->limitPercent;
     }
 }

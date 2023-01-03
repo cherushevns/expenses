@@ -88,6 +88,17 @@ SQL;
         return $rows ? $this->makeEntitiesFromRows($rows): [];
     }
 
+    public function deleteByCategoryId(int $categoryId): void
+    {
+        $sql = <<<SQL
+DELETE FROM actual_expense 
+WHERE
+    category_id = :categoryId
+SQL;
+
+        $this->connection->query($sql, ['categoryId' => $categoryId]);
+    }
+
     /**
      * @param array $rows
      * @return ActualExpenseEntity[]

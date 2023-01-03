@@ -3,13 +3,15 @@
 namespace Core\BusinessRules\Report\Entity;
 
 use Core\BusinessRules\Common\Money\Money;
+use DateTimeImmutable;
 
 class IncomeEntry
 {
     public function __construct(
         private int $id,
         private string $title,
-        private Money $money
+        private Money $money,
+        private DateTimeImmutable $earnedAt
     ) {}
 
     public function getId(): int
@@ -25,5 +27,10 @@ class IncomeEntry
     public function getMoney(): Money
     {
         return $this->money;
+    }
+
+    public function getEarnedAt(): DateTimeImmutable
+    {
+        return $this->earnedAt;
     }
 }

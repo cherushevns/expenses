@@ -11,6 +11,7 @@ class ActualExpenseModel
     public function toData(ActualExpense $actualExpense): ActualExpenseEntity
     {
         return new ActualExpenseEntity(
+            null,
             $actualExpense->getCategoryId(),
             $actualExpense->getTitle(),
             $actualExpense->getMoney()->getAmount(),

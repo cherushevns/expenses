@@ -6,7 +6,11 @@ RUN apt update \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install zip
+    && docker-php-ext-install zip \
+    && docker-php-ext-install gd \
+    && docker-php-ext-install calendar \
+    && docker-php-ext-install bcmath \
+
 
 WORKDIR /web
 

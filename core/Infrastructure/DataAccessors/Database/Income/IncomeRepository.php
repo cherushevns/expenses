@@ -65,9 +65,50 @@ SQL;
         return $row ? $this->makeEntityFromRow($row): null;
     }
 
+    /**
+     * @param int $userId
+     * @param DateTimeImmutable $dateFrom
+     * @param DateTimeImmutable $dateTo
+     * @return IncomeEntity[]
+     */
+    public function getByUserIdAndDates(
+        int $userId,
+        DateTimeImmutable $dateFrom,
+        DateTimeImmutable $dateTo
+    ): array {
+        $sql = <<<SQL
+SELECT * FROM income
+WHERE
+    user_id = :userId AND
+    earned_at BETWEEN :dateFrom AND :dateTo
+SQL;
+
+        $rows = $this->connection->fetchAll($sql, [
+            'userId' => $userId,
+            'dateFrom' => $dateFrom->format(DateTimeInterface::ATOM),
+            'dateTo' => $dateTo->format(DateTimeInterface::ATOM),
+        ]);
+
+        return $rows ? $this->makeEntitiesFromRows($rows): [];
+    }
+
+    /**
+     * @param array $rows
+     * @return IncomeEntity[]
+     */
+    public function makeEntitiesFromRows(array $rows): array
+    {
+        return array_map(
+            fn (array $row): IncomeEntity => $this->makeEntityFromRow($row),
+            $rows
+        );
+    }
+
     private function makeEntityFromRow(array $row): IncomeEntity
     {
         return new IncomeEntity(
+            $row['id'],
+            $row['title'],
             $row['user_id'],
             $row['amount'],
             $row['currency'],

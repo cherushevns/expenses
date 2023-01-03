@@ -7,12 +7,18 @@ use DateTimeImmutable;
 class ActualExpenseEntity
 {
     public function __construct(
+        private ?int $id,
         private int $categoryId,
         private string $title,
         private float $amount,
         private string $currency,
         private DateTimeImmutable $spentAt,
     ) {}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getCategoryId(): int
     {

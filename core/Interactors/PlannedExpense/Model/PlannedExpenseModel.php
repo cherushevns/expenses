@@ -3,10 +3,8 @@
 namespace Core\Interactors\PlannedExpense\Model;
 
 use Core\BusinessRules\Common\Money\Money;
-use Core\BusinessRules\PlannedExpense\Entity\MonthAndYear;
 use Core\BusinessRules\PlannedExpense\Entity\PlannedExpense;
 use Core\Infrastructure\DataAccessors\Database\PlannedExpense\PlannedExpenseEntity;
-use DateTimeImmutable;
 
 class PlannedExpenseModel
 {
@@ -29,21 +27,6 @@ class PlannedExpenseModel
                 $plannedExpenseEntity->getCurrency()
             ),
             $plannedExpenseEntity->getWillBeSpentAt()
-        );
-    }
-
-    public function makeDateTimeFromMonthAndYear(MonthAndYear $monthAndYear): DateTimeImmutable
-    {
-        return new DateTimeImmutable(
-            implode(
-                '', [
-                    '01-',
-                    $monthAndYear->getMonth(),
-                    '-',
-                    $monthAndYear->getYear(),
-                    ' 00:00:00'
-                ]
-            )
         );
     }
 }

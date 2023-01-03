@@ -11,6 +11,7 @@ class IncomeModel
     public function toData(Income $income): IncomeEntity
     {
         return new IncomeEntity(
+            null,
             $income->getTitle(),
             $income->getUserId(),
             $income->getMoney()->getAmount(),

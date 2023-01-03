@@ -15,6 +15,7 @@ class ContainerBuilder
     use Definition\PlannedExpenseTrait;
     use Definition\ActualExpenseTrait;
     use Definition\IncomeTrait;
+    use Definition\ReportTrait;
 
     public static function build(): Container
     {
@@ -29,6 +30,7 @@ class ContainerBuilder
         $containerBuilder->addDefinitions(self::getPlannedExpense());
         $containerBuilder->addDefinitions(self::getActualExpense());
         $containerBuilder->addDefinitions(self::getIncome());
+        $containerBuilder->addDefinitions(self::getReport());
 
         return $containerBuilder->build();
     }

@@ -59,9 +59,51 @@ SQL;
         return $row ? $this->makeEntityFromRow($row) : null;
     }
 
+    /**
+     * @param int[] $categoriesIds
+     * @param DateTimeImmutable $dateFrom
+     * @param DateTimeImmutable $dateTo
+     * @return ActualExpenseEntity[]
+     */
+    public function getByCategoriesIdsAndDates(
+        array $categoriesIds,
+        DateTimeImmutable $dateFrom,
+        DateTimeImmutable $dateTo
+    ): array {
+        $sql = <<<SQL
+SELECT * FROM actual_expense
+WHERE
+    category_id IN (:categoriesIds) AND
+    spent_at BETWEEN :dateFrom AND :dateTo
+SQL;
+
+        $rows = $this->connection->fetchAll($sql, [
+            'categoriesIds' => $categoriesIds,
+            'dateFrom' => $dateFrom->format(DateTimeInterface::ATOM),
+            'dateTo' => $dateTo->format(DateTimeInterface::ATOM)
+        ], [
+            'categoriesIds' => ConnectionInterface::TYPE_INTEGER_ARRAY
+        ]);
+
+        return $rows ? $this->makeEntitiesFromRows($rows): [];
+    }
+
+    /**
+     * @param array $rows
+     * @return ActualExpenseEntity[]
+     */
+    private function makeEntitiesFromRows(array $rows): array
+    {
+        return array_map(
+            fn (array $row): ActualExpenseEntity => $this->makeEntityFromRow($row),
+            $rows
+        );
+    }
+
     private function makeEntityFromRow(array $row): ActualExpenseEntity
     {
         return new ActualExpenseEntity(
+            $row['id'],
             $row['category_id'],
             $row['title'],
             $row['amount'],

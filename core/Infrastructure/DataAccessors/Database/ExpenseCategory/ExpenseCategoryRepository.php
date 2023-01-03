@@ -94,6 +94,25 @@ SQL;
     }
 
     /**
+     * @param int $userId
+     * @return ExpenseCategoryEntity[]
+     */
+    public function getByUserId(int $userId): array
+    {
+        $sql = <<<SQL
+SELECT * FROM expense_category
+WHERE
+    user_id = :userId
+SQL;
+
+        $rows = $this->connection->fetchAll($sql, [
+            'userId' => $userId
+        ]);
+
+        return $rows ? $this->makeEntitiesFromRows($rows) : [];
+    }
+
+    /**
      * @param array $rows
      * @return ExpenseCategoryEntity[]
      */

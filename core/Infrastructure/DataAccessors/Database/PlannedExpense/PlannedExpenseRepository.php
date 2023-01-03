@@ -68,4 +68,55 @@ SQL;
 
         $this->connection->query($sql, ['id' => $id]);
     }
+
+    /**
+     * @param int[] $categoriesIds
+     * @param DateTimeImmutable $dateFrom
+     * @param DateTimeImmutable $dateTo
+     * @return PlannedExpenseEntity[]
+     */
+    public function getByCategoriesIdsAndDates(
+        array $categoriesIds,
+        DateTimeImmutable $dateFrom,
+        DateTimeImmutable $dateTo
+    ): array {
+        $sql = <<<SQL
+SELECT * FROM planned_expense
+WHERE
+    category_id IN (:categoriesIds) AND
+    (will_be_spent_at BETWEEN :dateFrom AND :dateTo OR will_be_spent_at IS NULL)
+SQL;
+
+        $rows = $this->connection->fetchAll($sql, [
+            'categoriesIds' => $categoriesIds,
+            'dateFrom' => $dateFrom->format(DateTimeInterface::ATOM),
+            'dateTo' => $dateTo->format(DateTimeInterface::ATOM),
+        ], [
+            'categoriesIds' => ConnectionInterface::TYPE_INTEGER_ARRAY
+        ]);
+
+        return $rows ? $this->makeEntitiesFromRows($rows): [];
+    }
+
+    /**
+     * @param array $rows
+     * @return PlannedExpenseEntity[]
+     */
+    private function makeEntitiesFromRows(array $rows): array
+    {
+        return array_map(
+            fn (array $row): PlannedExpenseEntity => $this->makeEntityFromRow($row),
+            $rows
+        );
+    }
+
+    private function makeEntityFromRow(array $row): PlannedExpenseEntity
+    {
+        return new PlannedExpenseEntity(
+            $row['category_id'],
+            $row['amount'],
+            $row['currency'],
+            $row['will_be_spent_at'] ? new DateTimeImmutable($row['will_be_spent_at']) : null
+        );
+    }
 }

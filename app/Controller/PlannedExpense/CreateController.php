@@ -5,7 +5,6 @@ namespace App\Controller\PlannedExpense;
 use App\Controller\AbstractController;
 use App\RequestValidator\PlannedExpense\CreateValidator;
 use Core\BusinessRules\Common\Money\Money;
-use Core\BusinessRules\PlannedExpense\Entity\MonthAndYear;
 use Core\BusinessRules\PlannedExpense\Entity\PlannedExpense;
 use Core\UseCase\PlannedExpense\CreateUseCase;
 use DateTimeImmutable;

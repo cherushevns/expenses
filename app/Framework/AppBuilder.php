@@ -5,8 +5,13 @@ namespace App\Framework;
 use App\Framework\Application\MiddlewareTrait;
 use App\Framework\Application\RouteTrait;
 use Dotenv\Dotenv;
+use Fig\Http\Message\StatusCodeInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Slim\App;
+use Slim\Exception\HttpException;
 use Slim\Factory\AppFactory;
+use Throwable;
 
 class AppBuilder
 {
@@ -36,22 +41,6 @@ class AppBuilder
         // @todo добавить валидацию OpenAPI
         $app->addBodyParsingMiddleware();
         self::addMiddlewares($app);
-
-        // @todo добавить свой errorHandler, который будет парсить ошибки в JSON и
-        // выводить стектрейс, если DEBUG_MODE = 1 в .env
-        $app->addErrorMiddleware(true, true, true);
-
-        $app->options('/{routes:.+}', function ($request, $response) {
-            return $response;
-        });
-
-        $app->add(function ($request, $handler) {
-            $response = $handler->handle($request);
-            return $response
-                ->withHeader('Access-Control-Allow-Origin', '*')
-                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, Access-Token')
-                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-        });
 
         return $app;
     }

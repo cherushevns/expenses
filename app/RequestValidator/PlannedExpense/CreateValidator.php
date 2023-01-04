@@ -34,7 +34,7 @@ class CreateValidator
 
         if (! empty($data['date'])) {
             try {
-                $date = DateTimeImmutable::createFromFormat('Y-m', $data['date']);
+                $date = DateTimeImmutable::createFromFormat('m.Y', $data['date']);
             } catch (Throwable) {}
 
             if (! $date) {

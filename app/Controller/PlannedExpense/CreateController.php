@@ -33,7 +33,7 @@ class CreateController extends AbstractController
                 $data['currency']
             ),
             ! empty($data['date'])
-                ? new DateTimeImmutable($data['date'] . '-01 00:00:00') // crutch?
+                ? DateTimeImmutable::createFromFormat('d.m.Y H:i:s', '01.' . $data['date'] . ' 00:00:00')
                 : null
         );
 

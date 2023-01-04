@@ -114,8 +114,21 @@ class ReportBuilder
     private function resolveIncomesEntries(array $incomes, DateTimeImmutable $date): array
     {
         $entries = [];
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'));
+
+        $dateFrom = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $date->format('Y-m') . '-01 00:00:00'
+        );
+        $dateTo = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $date->format('Y-m') . '-' . $daysInMonth . ' 00:00:00'
+        );
         foreach ($incomes as $income) {
-            if ($income->getEarnedAt()->getTimestamp() === $date->getTimestamp()) {
+            if (
+                $income->getEarnedAt()->getTimestamp() >= $dateFrom->getTimestamp()
+                && $income->getEarnedAt()->getTimestamp() <= $dateTo->getTimestamp()
+            ) {
                 $entries[] = new IncomeEntry(
                     $income->getId(),
                     $income->getTitle(),
@@ -322,9 +335,9 @@ class ReportBuilder
         Incomes $incomes,
         TotalExpenses $totalExpenses
     ): Remains {
-        // @todo impl remain from last period!!!
         $remainsPeriods = [];
         foreach ($incomes->getPeriods() as $period) {
+
             $expensePeriod = $this->resolveExpensePeriodByDate($totalExpenses, $period->getDate());
             $planned = $expensePeriod ? $expensePeriod->getPlanned() : $this->makeDefaultMoney();
             $actual = $expensePeriod ? $expensePeriod->getActual() : $this->makeDefaultMoney();
@@ -336,6 +349,24 @@ class ReportBuilder
                 $remainActual,
                 $this->calculatePercentForPlannedAndActual($remainPlanned, $remainActual)
             );
+        }
+
+        foreach ($remainsPeriods as $key => $remainsPeriod) {
+            $previousRemainsPeriod = $remainsPeriods[$key - 1] ?? null;
+            if ($previousRemainsPeriod) {
+                $remainsPeriod->setTotalActual(
+                    $previousRemainsPeriod->getTotalActual()->add($remainsPeriod->getTotalActual())
+                );
+                $remainsPeriod->setTotalPlanned(
+                    $previousRemainsPeriod->getTotalPlanned()->add($remainsPeriod->getTotalPlanned())
+                );
+                $remainsPeriod->setLimitPercent(
+                    $this->calculatePercentForPlannedAndActual(
+                        $remainsPeriod->getTotalPlanned(),
+                        $remainsPeriod->getTotalActual()
+                    )
+                );
+            }
         }
 
         return new Remains($remainsPeriods);

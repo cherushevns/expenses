@@ -2,6 +2,7 @@ vendor
 composer.lock
 storage/cache/*
 storage/nginx/*
+storage/*.log
 .env
 .idea/
 mysql/

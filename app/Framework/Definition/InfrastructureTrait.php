@@ -32,15 +32,17 @@ trait InfrastructureTrait
     private static function getLogger(): LoggerInterface
     {
         $monolog = new MonologLogger('logger');
-        $monolog->pushHandler(new StreamHandler(
-            implode(
-                DIRECTORY_SEPARATOR, [
-                    DIR_ROOT,
-                    'storage',
-                    'info.log'
-                ]
-            )
-        ));
+        $filePath = implode(
+            DIRECTORY_SEPARATOR, [
+                DIR_ROOT,
+                'storage',
+                'info.log'
+            ]
+        );
+        if (! file_exists($filePath) || ! is_writable($filePath)) {
+            file_put_contents($filePath, 'Init!');
+        }
+        $monolog->pushHandler(new StreamHandler($filePath));
 
         return $monolog;
     }

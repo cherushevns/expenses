@@ -33,7 +33,7 @@ class CreateController extends AbstractController
                 $data['amount'],
                 $data['currency']
             ),
-            new DateTimeImmutable($data['date'] . ' 00:00:00')
+            DateTimeImmutable::createFromFormat('d.m.Y H:i:s', $data['date'] . ' 00:00:00')
         );
 
         $this->createUseCase->create($plannedExpense);

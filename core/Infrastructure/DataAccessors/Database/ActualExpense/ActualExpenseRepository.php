@@ -39,7 +39,7 @@ SQL;
     public function delete(int $id): void
     {
         $sql = <<<SQL
-DELETE FROM acutal_expense
+DELETE FROM actual_expense
 WHERE
     id = :id
 SQL;
@@ -91,7 +91,7 @@ SQL;
     public function deleteByCategoryId(int $categoryId): void
     {
         $sql = <<<SQL
-DELETE FROM actual_expense 
+DELETE FROM actual_expense
 WHERE
     category_id = :categoryId
 SQL;

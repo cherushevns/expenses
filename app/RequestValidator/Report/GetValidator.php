@@ -15,7 +15,7 @@ class GetValidator
             $errors[] = ['field' => 'from', 'error' => 'Заполните поле'];
         } else {
             try {
-                $date = DateTimeImmutable::createFromFormat('Y-m', $data['from']);
+                $date = DateTimeImmutable::createFromFormat('m.Y', $data['from']);
             } catch (Throwable) {}
 
             if (! $date) {
@@ -27,7 +27,7 @@ class GetValidator
             $errors[] = ['field' => 'to', 'error' => 'Заполните поле'];
         } else {
             try {
-                $date = DateTimeImmutable::createFromFormat('Y-m', $data['from']);
+                $date = DateTimeImmutable::createFromFormat('m.Y', $data['from']);
             } catch (Throwable) {}
 
             if (! $date) {

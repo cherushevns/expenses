@@ -113,7 +113,10 @@
                         <label class="form-label">Сумма</label>
                         <input name="amount" class="form-control" placeholder="0.0">
                         <input type="hidden" name="currency" value="RUB">
-                        <input type="hidden" name="date">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Дата</label>
+                        <input name="date" class="form-control" placeholder="ДД.ММ.ГГГГ">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -141,9 +144,112 @@
         </div>
     </div>
 </div>
+<!-- Create planned expense -->
+<div class="modal fade" id="createPlannedExpense" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" action="/planned-expense" method="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Создание планируемого расхода</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Сумма</label>
+                        <input name="amount" class="form-control" placeholder="0.0">
+                        <input type="hidden" name="currency" value="RUB">
+                        <input type="hidden" name="categoryId">
+                    </div>
+                    <div class="mb-3 date-input" style="display: none">
+                        <label class="form-label">Дата</label>
+                        <input name="date" class="form-control" placeholder="ММ.ГГГГ">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Create planned expense -->
+<div class="modal fade" id="createActualExpenseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" action="/actual-expense" method="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Создание актуального расхода</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Сумма</label>
+                        <input name="amount" class="form-control" placeholder="0.0">
+                        <input type="hidden" name="currency" value="RUB">
+                        <input type="hidden" name="categoryId">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Название</label>
+                        <input name="title" class="form-control" placeholder="Молоко">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Дата</label>
+                        <input name="date" class="form-control" placeholder="ДД.ММ.ГГГГ">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete actual expense -->
+<div class="modal fade" id="deleteActualExpenseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" data-action-template="/actual-expense/{:id}" action="" method="DELETE">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Вы уверены, что хотите удалить фактический расход?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" action="/auth/login" method="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Авторизация</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Логин</label>
+                        <input name="login" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Войти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     window.apiUrl = 'http://localhost:8080/v1';
-    window.accessToken = 'fe6c763a-1307-46f8-8880-2fd79b9a92d8';
     window.isAjaxInProcess = false;
 
     window.onload = function () {
@@ -152,11 +258,8 @@
 
     $(document).on('submit', 'form.ajaxForm', function (e) {
         e.preventDefault();
-
-        var form = this;
-
+        let form = this;
         submitForm(form);
-
         $(window).resize();
     });
 
@@ -167,14 +270,14 @@
             return;
         }
         window.isAjaxInProcess = true;
-        var action = window.apiUrl + $(form).attr('action');
-        var method = $(form).attr('method');
-        var data = new FormData(form);
-        var object = {};
+        let action = window.apiUrl + $(form).attr('action');
+        let method = $(form).attr('method');
+        let data = new FormData(form);
+        let object = {};
         data.forEach(function(value, key){
             object[key] = value;
         });
-        var json = JSON.stringify(object);
+        let json = JSON.stringify(object);
         $.ajax({
             type: method,
             dataType: "JSON",
@@ -184,10 +287,13 @@
             contentType: 'application/json',
             headers: {
                 'Accept': 'application/json',
-                'Access-Token': window.accessToken
+                'Access-Token': getAccessToken()
             },
-            success: function () {
+            success: function (response) {
                 window.isAjaxInProcess = false;
+                if (response.response.accessToken) {
+                    setAccessToken(response.response.accessToken);
+                }
                 requestReport();
             },
             error: function (response) {
@@ -196,13 +302,23 @@
                 if (json.status === 'validation-error') {
                     processFormErrors(form, json.errors);
                 }
-                console.log(json);
+                if (response.status === 403) {
+                    initLogin();
+                }
             }
         });
-    };
+    }
+
+    function setAccessToken(accessToken) {
+        localStorage.setItem('accessToken', accessToken);
+    }
+
+    function getAccessToken() {
+        return localStorage.getItem('accessToken');
+    }
 
     function clearFormErrors(form) {
-        $(form).find('input select').removeClass('border-error');
+        $(form).find('input, select').removeClass('border-error');
         $(form).find('.text-danger').remove();
     }
 
@@ -219,15 +335,27 @@
         }
         window.isAjaxInProcess = true;
         $.ajax({
-            url: window.apiUrl + "/report?from=2022-12&to=2023-03",
+            url: window.apiUrl + "/report?from=12.2022&to=03.2023",
             headers: {
-                "Access-Token": "fe6c763a-1307-46f8-8880-2fd79b9a92d8"
+                "Access-Token": getAccessToken()
             },
             success: function (result) {
                 window.isAjaxInProcess = false;
                 initReport(result.response);
+            },
+            error: function(result) {
+                window.isAjaxInProcess = false;
+                if (result.status === 403) {
+                    initLogin();
+                }
             }
         });
+    }
+
+    function initLogin() {
+        let root = $('#root');
+        root.html('');
+        $('#loginModal').modal({backdrop: 'static', keyboard: false}).modal('show');
     }
 
     function initReport(data) {
@@ -237,6 +365,11 @@
 					<div class="row">
 						<div class="col">
 							<h1>Финансы</h1>
+						</div>
+						<div class="col">
+						    <form class="ajaxForm" action="/auth/logout" method="POST">
+                                <button type="submit" class="btn btn-danger logoutButton" data-toggle="tooltip" data-placement="top" title="Выйти">Выйти</button>
+                            </form>
 						</div>
 					</div>
 				<div class="row">`;
@@ -276,7 +409,7 @@
             html += `
 					<div class="col">`
                 + element.total.amount + ` ` + element.total.currency + `
-						<button data-date="` + element.date + `" type="button" class="btn btn-success btn-xs createIncome" data-toggle="tooltip" data-placement="top" title="Создать доход">+</button>
+						<button data-date="01.` + element.date + `" type="button" class="btn btn-success btn-xs createIncome" data-toggle="tooltip" data-placement="top" title="Создать доход">+</button>
 				 		<br>
 				 		<button type="button" class="btn btn-primary btn-xs showDetalization">
 				 			Детализация
@@ -340,7 +473,7 @@
 					<div class="row">
 						<div class="col">
 							` + element.title + `
-							<button data-id="` + element.id + `" type="button" class="btn btn-success btn-xs craeteWholeCategoryPlannedExpense" data-toggle="tooltip" data-placement="top" title="Создать регулярный планируемый расход">+</button>
+							<button data-id="` + element.id + `" type="button" class="btn btn-success btn-xs createDefaultPlannedExpense" data-toggle="tooltip" data-placement="top" title="Создать регулярный планируемый расход">+</button>
 							<button data-id="` + element.id + `" data-title="` + element.title + `" data-type="` + element.type + `" type="button" class="btn btn-warning btn-xs updateCategory" data-toggle="tooltip" data-placement="top" title="Изменить категорию">/</button>
 							<button data-id="` + element.id + `" type="button" class="btn btn-danger btn-xs deleteCategory" data-toggle="tooltip" data-placement="top" title="Удалить категорию">-</button>
 						</div>
@@ -357,10 +490,10 @@
                 html += `
 						<div class="col">
 							Факт: ` + period.totalActual.amount + ` ` + period.totalActual.currency + `
-							<button data-date="` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createActualExpense" data-toggle="tooltip" data-placement="top" title="Создать фактический расход">+</button>
+							<button data-date="01.` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createActualExpense" data-toggle="tooltip" data-placement="top" title="Указать фактический расход">+</button>
 							<br>
 							План: ` + period.totalPlanned.amount + ` ` + period.totalPlanned.currency + `
-							<button data-date="` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createPlannedExpense" data-toggle="tooltip" data-placement="top" title="Создать планируемый расход">+</button>
+							<button data-date="` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createPlannedExpense" data-toggle="tooltip" data-placement="top" title="Указать план на месяц">+</button>
 							<br> 
 							Расход: ` + period.limitPercent + `% <br>
 							<button type="button" class="btn btn-primary btn-xs showDetalization">Детализация</button>
@@ -373,7 +506,6 @@
             html += '<hr>';
 
         });
-
 
         html += `
 				<div class="row">
@@ -395,95 +527,82 @@
     }
 
     function initTriggers() {
-        $('#createCategoryButton').on('click', function () {
-            let title = $('#categoryTitle').val();
-            createCategory(title);
-        });
-
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
+        $('[data-toggle="tooltip"]').tooltip();
 
         $(document).on('click', '.createIncome', function () {
             let date = String($(this).data('date'));
-            date = date.split('.');
-            date = date.reverse();
-            date.push('01');
-            date = date.join('-');
-            $('#createIncomeModal').find('*[name="date"]').val(date);
-            $('#createIncomeModal').modal('show');
+            let modal = $('#createIncomeModal');
+            modal.find('*[name="date"]').val(date);
+            modal.modal('show');
         });
+
         $(document).on('click', '.deleteIncome', function () {
             let id = $(this).data('id');
-            $('#deleteIncomeModal').find('.ajaxForm').attr('action', $('#deleteIncomeModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
-            $('#deleteIncomeModal').modal('show');
+            let modal = $('#deleteIncomeModal');
+            modal.find('.ajaxForm').attr('action', modal.find('.ajaxForm').data('action-template').replace('{:id}', id));
+            modal.modal('show');
         });
+
         $(document).on('click', '.deleteCategory', function () {
             let id = $(this).data('id');
-            $('#deleteExpenseCategoryModal').find('.ajaxForm').attr('action', $('#deleteExpenseCategoryModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
-            $('#deleteExpenseCategoryModal').modal('show');
+            let modal = $('#deleteExpenseCategoryModal');
+            modal.find('.ajaxForm').attr('action', modal.find('.ajaxForm').data('action-template').replace('{:id}', id));
+            modal.modal('show');
         });
+
         $(document).on('click', '.updateCategory', function () {
             let id = $(this).data('id');
             let title = $(this).data('title');
             let type = $(this).data('type');
-            console.log(title, type);
-            $('#updateExpenseCategoryModal').find('*[name="title"]').val(title);
-            $('#updateExpenseCategoryModal').find('*[name="type"]').val(type);
-            $('#updateExpenseCategoryModal').find('.ajaxForm').attr('action', $('#updateExpenseCategoryModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
-            $('#updateExpenseCategoryModal').modal('show');
+            let modal = $('#updateExpenseCategoryModal');
+            modal.find('*[name="title"]').val(title);
+            modal.find('*[name="type"]').val(type);
+            modal.find('.ajaxForm').attr('action', modal.find('.ajaxForm').data('action-template').replace('{:id}', id));
+            modal.modal('show');
         });
+
+        $(document).on('click', '.createDefaultPlannedExpense', function(){
+            let categoryId = $(this).data('id');
+            let modal = $('#createPlannedExpense');
+            modal.find('.date-input').hide();
+            modal.find('*[name="categoryId"]').val(categoryId);
+            modal.find('*[name="date"]').val('');
+            modal.modal('show');
+        })
+
+        $(document).on('click', '.createPlannedExpense', function(){
+            let categoryId = $(this).data('category-id');
+            let date = String($(this).data('date'));
+            let modal = $('#createPlannedExpense');
+            modal.find('.date-input').show();
+            modal.find('*[name="categoryId"]').val(categoryId);
+            modal.find('*[name="date"]').val(date);
+            modal.modal('show');
+        })
+
+        $(document).on('click', '.createActualExpense', function(){
+            let categoryId = $(this).data('category-id');
+            let date = String($(this).data('date'));
+            let modal = $('#createActualExpenseModal');
+            modal.find('.date-input').show();
+            modal.find('*[name="categoryId"]').val(categoryId);
+            modal.find('*[name="date"]').val(date);
+            modal.modal('show');
+        })
+
+        $(document).on('click', '.deleteActualExpense', function(){
+            let id = $(this).data('id');
+            let modal = $('#deleteActualExpenseModal');
+            modal.find('.ajaxForm').attr('action', modal.find('.ajaxForm').data('action-template').replace('{:id}', id));
+            modal.modal('show');
+        })
     }
 
     function hideModals() {
         $('.modal').modal('hide');
     }
-
-    function createCategory(title) {
-        if (window.isAjaxInProcess) {
-            return
-        }
-        window.isAjaxInProcess = true;
-        $.ajax({
-            url: window.apiUrl + "/expense-category",
-            headers: {
-                "Access-Token": window.accessToken
-            },
-            method: "POST",
-            data: {
-                "title": title,
-                "type": 3 // @todo some types :)
-            },
-            success: function (result) {
-                window.isAjaxInProcess = false;
-                requestReport();
-            }
-        });
-    }
-
-    function editCategory(id, title) {
-        if (window.isAjaxInProcess) {
-            return
-        }
-        window.isAjaxInProcess = true;
-        $.ajax({
-            url: window.apiUrl + "/expense-category/" + id,
-            headers: {
-                "Access-Token": window.accessToken
-            },
-            method: "PUT",
-            data: {
-                "title": title,
-                "type": 1 // @todo some types :)
-            },
-            success: function (result) {
-                window.isAjaxInProcess = false;
-                requestReport();
-            }
-        });
-    }
 </script>
-<style type="text/css">
+<style>
     .col {
         position: relative;
     }
@@ -518,6 +637,9 @@
 
     .border-error {
         border-color: red;
+    }
+    .logoutButton {
+        float: right;
     }
 </style>
 </body>

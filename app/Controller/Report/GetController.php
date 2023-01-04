@@ -27,8 +27,8 @@ class GetController extends AbstractController
         }
 
         $report = $this->getUseCase->get(
-            new DateTimeImmutable($parameters['from'] . '-01 00:00:00'),
-            new DateTimeImmutable($parameters['to'] . '-01 00:00:00'),
+            DateTimeImmutable::createFromFormat('d.m.Y H:i:s', '01.' . $parameters['from'] . ' 00:00:00'),
+            DateTimeImmutable::createFromFormat('d.m.Y H:i:s', '01.' . $parameters['to'] . ' 00:00:00'),
         );
 
         return $this->sendSuccessResponse(

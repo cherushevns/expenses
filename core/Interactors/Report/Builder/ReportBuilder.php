@@ -189,6 +189,7 @@ class ReportBuilder
 
             $categories[] = new ExpenseCategory(
                 $expenseCategory->getId(),
+                $expenseCategory->getType(),
                 $periods
             );
         }

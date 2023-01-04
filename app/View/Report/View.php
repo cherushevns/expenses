@@ -72,6 +72,7 @@ class View
                     fn (ExpenseCategory $category): array => [
                         'id' => $category->getCategoryId(),
                         'title' => $this->getById->get($category->getCategoryId())->getTitle(),
+                        'type' => $category->getType(),
                         'periods' => array_map(
                             fn (ExpensePeriod $period): array => [
                                 'date' => $period->getDate()->format('m.Y'),

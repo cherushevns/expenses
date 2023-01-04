@@ -1,225 +1,238 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Тест</title>
-	<link href="shttps://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Тест</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
-	<div id="root">
-		<h1>Ща всё будет</h1>
-	</div>
-	<!-- Create category -->
-	<div class="modal fade" id="createCategoryModal" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <form class="ajaxForm" action="/expense-category" method="POST">
-	      	<div class="modal-header">
-		        <h1 class="modal-title fs-5">Создание категории</h1>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
-		      <div class="modal-body">
-		        <div class="mb-3">
-						  <label class="form-label">Название категории</label>
-						  <input name="title" class="form-control" placeholder="Корм кошке">
-						</div>
-		        <div class="mb-3">
-						  <label class="form-label">Тип</label>
-						  <select name="type" class="form-control">
-						  	<option value="1">Регулярный обязательный расход</option>
-						  	<option value="2">Накопление</option>
-						  	<option value="3">Дополнительный расход</option>
-						  </select>
-						</div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-		        <button type="submit" class="btn btn-success">Создать</button>
-		      </div>
-				</form>
-	    </div>
-	  </div>
-	</div>
-	<!-- Update category -->
-	<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <form class="ajaxForm" action="/expense-category" method="PUT">
-	      	<div class="modal-header">
-		        <h1 class="modal-title fs-5">Изменение категории</h1>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
-		      <div class="modal-body">
-		        <div class="mb-3">
-						  <label class="form-label">Название категории</label>
-					  	<input name="title" class="form-control" placeholder="Корм кошке">
-					  	<input type="hidden" name="id">
-						</div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-		        <button type="submit" class="btn btn-warning">Изменить</button>
-		      </div>
-				</form>
-	    </div>
-	  </div>
-	</div>
-	<!-- Delete category -->
-	<div class="modal fade" id="deleteExpenseCategoryModal" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <form class="ajaxForm" data-action-template="/expense-category/{:id}" action="" method="DELETE">
-      		<div class="modal-header">
-	        	<h1 class="modal-title fs-5">Вы уверены, что хотите удалить категорию?</h1>
-	        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      	</div>
-	      	<div class="modal-footer">
-	        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-	        	<button type="submit" class="btn btn-danger">Удалить</button>
-	      	</div>
-				</form>
-    	</div>
-	  </div>
-	</div>
-	<!-- Create income -->
-	<div class="modal fade" id="createIncomeModal" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-      	<form class="ajaxForm" action="/income" method="POST">
-      		<div class="modal-header">
-	        	<h1 class="modal-title fs-5">Создание дохода</h1>
-	        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      	</div>
-	      	<div class="modal-body">
-		        <div class="mb-3">
-						  <label class="form-label">Название</label>
-					  	<input name="title" class="form-control" placeholder="Зарплата">
-					  </div>
-		        <div class="mb-3">
-						  <label class="form-label">Сумма</label>
-					  	<input name="amount" class="form-control" placeholder="0.0">
-					  	<input type="hidden" name="currency" value="RUB">
-				  		<input type="hidden" name="date">
-						</div>
-	      	</div>
-	      	<div class="modal-footer">
-	       		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-	        	<button type="submit" class="btn btn-success">Создать</button>
-	      	</div>
-				</form>
-	  	</div>
-		</div>
-	</div>
-	<!-- Delete income -->
-	<div class="modal fade" id="deleteIncomeModal" tabindex="-1" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <form class="ajaxForm" data-action-template="/income/{:id}" action="" method="DELETE">
-      		<div class="modal-header">
-	        	<h1 class="modal-title fs-5">Вы уверены, что хотите удалить доход?</h1>
-	        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      	</div>
-	      	<div class="modal-footer">
-	        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-	        	<button type="submit" class="btn btn-danger">Удалить</button>
-	      	</div>
-				</form>
-    	</div>
-	  </div>
-	</div>
-	<script type="text/javascript">
-		window.apiUrl = 'http://localhost:8080/v1';
-		window.accessToken = 'fe6c763a-1307-46f8-8880-2fd79b9a92d8';
-  	window.isAjaxInProcess = false;			
+<div id="root">
+    <h1>Ща всё будет</h1>
+</div>
+<!-- Create category -->
+<div class="modal fade" id="createExpenseCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" action="/expense-category" method="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Создание категории</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Название категории</label>
+                        <input name="title" class="form-control" placeholder="Корм кошке">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Тип</label>
+                        <select name="type" class="form-control">
+                            <option value="1">Регулярный обязательный расход</option>
+                            <option value="2">Накопление</option>
+                            <option value="3">Дополнительный расход</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Update category -->
+<div class="modal fade" id="updateExpenseCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" data-action-template="/expense-category/{:id}" action="" method="PUT">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Изменение категории</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Название категории</label>
+                        <input name="title" class="form-control" placeholder="Корм кошке">
+                        <input type="hidden" name="id">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Тип</label>
+                        <select name="type" class="form-control">
+                            <option value="1">Регулярный обязательный расход</option>
+                            <option value="2">Накопление</option>
+                            <option value="3">Дополнительный расход</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-warning">Изменить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete category -->
+<div class="modal fade" id="deleteExpenseCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" data-action-template="/expense-category/{:id}" action="" method="DELETE">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Вы уверены, что хотите удалить категорию?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Create income -->
+<div class="modal fade" id="createIncomeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" action="/income" method="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Создание дохода</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Название</label>
+                        <input name="title" class="form-control" placeholder="Зарплата">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Сумма</label>
+                        <input name="amount" class="form-control" placeholder="0.0">
+                        <input type="hidden" name="currency" value="RUB">
+                        <input type="hidden" name="date">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete income -->
+<div class="modal fade" id="deleteIncomeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" data-action-template="/income/{:id}" action="" method="DELETE">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Вы уверены, что хотите удалить доход?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.apiUrl = 'http://localhost:8080/v1';
+    window.accessToken = 'fe6c763a-1307-46f8-8880-2fd79b9a92d8';
+    window.isAjaxInProcess = false;
 
-		window.onload = function() {
-			requestReport();
-		}
+    window.onload = function () {
+        requestReport();
+    }
 
-		$(document).on('submit', 'form.ajaxForm', function(e)
-		{
-		    e.preventDefault();
+    $(document).on('submit', 'form.ajaxForm', function (e) {
+        e.preventDefault();
 
-		    var form = this;
+        var form = this;
 
-		    submitForm(form);
+        submitForm(form);
 
-		    $(window).resize();
-		});
+        $(window).resize();
+    });
 
 
-		function submitForm(form)
-		{
-				clearFormErrors(form);
-				if (window.isAjaxInProcess) {
-					return;
-				}
-				window.isAjaxInProcess = true;
-		    var action = window.apiUrl + $(form).attr('action');
-		    var method = $(form).attr('method');
-		    var data = new FormData(form);
-		    $.ajax( {
-		        type: method,
-		        dataType: "JSON",
-		        url: action,
-		        data: data,
-		        processData: false,
-		        contentType: false,
-		        headers: {
-		        	'Access-Token': window.accessToken
-		        },
-		        success: function(response) {
-		        	window.isAjaxInProcess = false;
-							requestReport();
-							return;
-		        },
-		        error: function(response)
-		        {
-		        	window.isAjaxInProcess = false;
-	        		let json = JSON.parse(response.responseText);
-		        	if (json.status === 'validation-error') {
-		        		processFormErrors(form, json.errors);
-		        	}
-		        	console.log(json);
-		        }
-		    });
-		};
+    function submitForm(form) {
+        clearFormErrors(form);
+        if (window.isAjaxInProcess) {
+            return;
+        }
+        window.isAjaxInProcess = true;
+        var action = window.apiUrl + $(form).attr('action');
+        var method = $(form).attr('method');
+        var data = new FormData(form);
+        var object = {};
+        data.forEach(function(value, key){
+            object[key] = value;
+        });
+        var json = JSON.stringify(object);
+        $.ajax({
+            type: method,
+            dataType: "JSON",
+            url: action,
+            data: json,
+            processData: false,
+            contentType: 'application/json',
+            headers: {
+                'Accept': 'application/json',
+                'Access-Token': window.accessToken
+            },
+            success: function () {
+                window.isAjaxInProcess = false;
+                requestReport();
+            },
+            error: function (response) {
+                window.isAjaxInProcess = false;
+                let json = JSON.parse(response.responseText);
+                if (json.status === 'validation-error') {
+                    processFormErrors(form, json.errors);
+                }
+                console.log(json);
+            }
+        });
+    };
 
-		function clearFormErrors(form) {
-			$(form).find('input select').removeClass('border-error');
-			$(form).find('.text-danger').remove();
-		}
+    function clearFormErrors(form) {
+        $(form).find('input select').removeClass('border-error');
+        $(form).find('.text-danger').remove();
+    }
 
-		function processFormErrors(form, errors) {
-			errors.forEach(function (element) {
-				$(form).find('*[name="' + element.field + '"]').addClass('border-error');
-				$(form).find('*[name="' + element.field + '"]').after('<small class="text-danger">' + element.error + '</small>');
-			})
-		}
+    function processFormErrors(form, errors) {
+        errors.forEach(function (element) {
+            $(form).find('*[name="' + element.field + '"]').addClass('border-error');
+            $(form).find('*[name="' + element.field + '"]').after('<small class="text-danger">' + element.error + '</small>');
+        })
+    }
 
-		function requestReport() {
-			if (window.isAjaxInProcess) {
-				return
-			}
-			window.isAjaxInProcess = true;
-			$.ajax({
-			  url: window.apiUrl + "/report?from=2022-12&to=2023-03",
-			  headers: {
-			  	"Access-Token": "fe6c763a-1307-46f8-8880-2fd79b9a92d8"
-			  },
-			  success: function( result ) {
-			  	window.isAjaxInProcess = false;
-			  	initReport(result.response);
-			  }
-			});
-		}
+    function requestReport() {
+        if (window.isAjaxInProcess) {
+            return
+        }
+        window.isAjaxInProcess = true;
+        $.ajax({
+            url: window.apiUrl + "/report?from=2022-12&to=2023-03",
+            headers: {
+                "Access-Token": "fe6c763a-1307-46f8-8880-2fd79b9a92d8"
+            },
+            success: function (result) {
+                window.isAjaxInProcess = false;
+                initReport(result.response);
+            }
+        });
+    }
 
-		function initReport(data) {
-			let root = $('#root');
-			let html = `
+    function initReport(data) {
+        let root = $('#root');
+        let html = `
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col">
@@ -227,15 +240,15 @@
 						</div>
 					</div>
 				<div class="row">`;
-			html += 	'<div class="col">Месяц</div>';
-			data.periods.forEach(function(element) {
-				html += `<div class="col">` + element + `</div>`;
-			});
-			html += '</div>';
+        html += '<div class="col">Месяц</div>';
+        data.periods.forEach(function (element) {
+            html += `<div class="col">` + element + `</div>`;
+        });
+        html += '</div>';
 
-			html += '<hr>';
+        html += '<hr>';
 
-			html += `
+        html += `
 				<div class="row">
 					<div class="col text-center">
 						Доход/Расход/Остаток
@@ -244,25 +257,25 @@
 		 		<hr>
 	 		`;
 
-			html += `
+        html += `
 				<div class="row">
 					<div class="col">
 						Доходы
 					</div>
 			`;
 
-			data.incomes.periods.forEach(function(element) {
-				var detalizationHtml = '';
-				element.entries.forEach(function(entry) {
-					detalizationHtml += `
+        data.incomes.periods.forEach(function (element) {
+            var detalizationHtml = '';
+            element.entries.forEach(function (entry) {
+                detalizationHtml += `
 						<span data-id="` + entry.id + `" class="incomeEntry">
 							` + entry.money.amount + ` ` + entry.money.currency + ` ` + entry.title + ` ` + entry.earnedAt + `
 							<button data-id="` + entry.id + `" type="button" class="btn btn-danger btn-xs deleteIncome" data-toggle="tooltip" data-placement="top" title="Удалить доход">-</button>
 						</span><br>`;
-				});
-				html += `
+            });
+            html += `
 					<div class="col">`
-				 		+ element.total.amount + ` ` + element.total.currency + `
+                + element.total.amount + ` ` + element.total.currency + `
 						<button data-date="` + element.date + `" type="button" class="btn btn-success btn-xs createIncome" data-toggle="tooltip" data-placement="top" title="Создать доход">+</button>
 				 		<br>
 				 		<button type="button" class="btn btn-primary btn-xs showDetalization">
@@ -273,47 +286,47 @@
 		 				</div>
 	 				</div>
  				`;
-			});
-			html += `</div>`;
+        });
+        html += `</div>`;
 
-			html += `<hr>`;
+        html += `<hr>`;
 
-			html += `
+        html += `
 				<div class="row">
 					<div class="col">Расходы</div>`;
-			data.totalExpenses.periods.forEach(function(element) {
-				html += `
+        data.totalExpenses.periods.forEach(function (element) {
+            html += `
 					<div class="col">
 						Факт: ` + element.actual.amount + ` ` + element.actual.currency + `<br>
 						План: ` + element.planned.amount + ` ` + element.planned.currency + `<br>
 						Расход: ` + element.limitPercent + `%
 					</div>
 				`;
-			});
-			html += `</div>`;
+        });
+        html += `</div>`;
 
-			html += `<hr>`;
+        html += `<hr>`;
 
-			html += `
+        html += `
 				<div class="row">
 					<div class="col">
 						Остаток
 					</div>
 				`;
-			data.remains.periods.forEach(function(element) {
-				html += `
+        data.remains.periods.forEach(function (element) {
+            html += `
 					<div class="col">
 						Факт: ` + element.totalActual.amount + ` ` + element.totalActual.currency + `<br>
 						План: ` + element.totalPlanned.amount + ` ` + element.totalPlanned.currency + `<br>
 						Расход: ` + element.limitPercent + `%
 					</div>
 				`;
-			});
-			html += `</div>`;
+        });
+        html += `</div>`;
 
-			html += `<hr>`;
+        html += `<hr>`;
 
-			html += `
+        html += `
 				<div class="row">
 					<div class="col text-center">
 						Расходы по категориям
@@ -322,26 +335,26 @@
 		 		<hr>
 	 		`;
 
-			data.expenses.categories.forEach(function (element) {
-				html += `
+        data.expenses.categories.forEach(function (element) {
+            html += `
 					<div class="row">
 						<div class="col">
 							` + element.title + `
 							<button data-id="` + element.id + `" type="button" class="btn btn-success btn-xs craeteWholeCategoryPlannedExpense" data-toggle="tooltip" data-placement="top" title="Создать регулярный планируемый расход">+</button>
-							<button data-id="` + element.id + `" date-title="` + element.title + `" type="button" class="btn btn-warning btn-xs editCategory" data-toggle="tooltip" data-placement="top" title="Изменить название категории">/</button>
+							<button data-id="` + element.id + `" data-title="` + element.title + `" data-type="` + element.type + `" type="button" class="btn btn-warning btn-xs updateCategory" data-toggle="tooltip" data-placement="top" title="Изменить категорию">/</button>
 							<button data-id="` + element.id + `" type="button" class="btn btn-danger btn-xs deleteCategory" data-toggle="tooltip" data-placement="top" title="Удалить категорию">-</button>
 						</div>
 					`;
-				element.periods.forEach(function(period) {
-					var detalizationHtml = '';
-					period.actualExpenses.forEach(function(entry) {
-						detalizationHtml += `
+            element.periods.forEach(function (period) {
+                var detalizationHtml = '';
+                period.actualExpenses.forEach(function (entry) {
+                    detalizationHtml += `
 							<span class="expenseEntry">
 								` + entry.money.amount + ` ` + entry.money.currency + ` ` + entry.title + ` ` + entry.spentAt + `
 								<button data-id="` + entry.id + `" type="button" class="btn btn-danger btn-xs deleteActualExpense" data-toggle="tooltip" data-placement="top" title="Удалить фактический расход">-</button>
 							</span>`;
-					})
-					html += `
+                })
+                html += `
 						<div class="col">
 							Факт: ` + period.totalActual.amount + ` ` + period.totalActual.currency + `
 							<button data-date="` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createActualExpense" data-toggle="tooltip" data-placement="top" title="Создать фактический расход">+</button>
@@ -354,18 +367,18 @@
 							<div class="detaliaztion">` + detalizationHtml + `</div>
 						</div>
 					`;
-				});
-				html += '</div>';
+            });
+            html += '</div>';
 
-				html += '<hr>';
+            html += '<hr>';
 
-			});
+        });
 
 
-			html += `
+        html += `
 				<div class="row">
 					<div class="col">
-						<button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+						<button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#createExpenseCategoryModal">
 							Создать категорию
 						</button>
 					</div>
@@ -373,128 +386,139 @@
 		 		<hr>
 	 		`;
 
-			html += `</div>`;
+        html += `</div>`;
 
-			root.html(html);
+        root.html(html);
 
-			initTriggers();
-			hideModals();
-		}
+        initTriggers();
+        hideModals();
+    }
 
-		function initTriggers() {
-			$('#createCategoryButton').on('click', function() {
-				let title = $('#categoryTitle').val();
-				createCategory(title);
-			});
+    function initTriggers() {
+        $('#createCategoryButton').on('click', function () {
+            let title = $('#categoryTitle').val();
+            createCategory(title);
+        });
 
-			$(function () {
-			  $('[data-toggle="tooltip"]').tooltip()
-			});
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
 
-			$(document).on('click', '.createIncome', function(){
-				let date = String($(this).data('date'));
-				date = date.split('.');
-				date = date.reverse();
-				date.push('01');
-				date = date.join('-');
-				$('#createIncomeModal').find('*[name="date"]').val(date);
-				$('#createIncomeModal').modal('show');
-			});
-			$(document).on('click', '.deleteIncome', function(){
-				let id = $(this).data('id');
-				$('#deleteIncomeModal').find('.ajaxForm').attr('action', $('#deleteIncomeModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
-				$('#deleteIncomeModal').modal('show');
-			});
-			$(document).on('click', '.deleteCategory', function(){
-				let id = $(this).data('id');
-				$('#deleteExpenseCategoryModal').find('.ajaxForm').attr('action', $('#deleteExpenseCategoryModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
-				$('#deleteExpenseCategoryModal').modal('show');
-			});
-		}
+        $(document).on('click', '.createIncome', function () {
+            let date = String($(this).data('date'));
+            date = date.split('.');
+            date = date.reverse();
+            date.push('01');
+            date = date.join('-');
+            $('#createIncomeModal').find('*[name="date"]').val(date);
+            $('#createIncomeModal').modal('show');
+        });
+        $(document).on('click', '.deleteIncome', function () {
+            let id = $(this).data('id');
+            $('#deleteIncomeModal').find('.ajaxForm').attr('action', $('#deleteIncomeModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
+            $('#deleteIncomeModal').modal('show');
+        });
+        $(document).on('click', '.deleteCategory', function () {
+            let id = $(this).data('id');
+            $('#deleteExpenseCategoryModal').find('.ajaxForm').attr('action', $('#deleteExpenseCategoryModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
+            $('#deleteExpenseCategoryModal').modal('show');
+        });
+        $(document).on('click', '.updateCategory', function () {
+            let id = $(this).data('id');
+            let title = $(this).data('title');
+            let type = $(this).data('type');
+            console.log(title, type);
+            $('#updateExpenseCategoryModal').find('*[name="title"]').val(title);
+            $('#updateExpenseCategoryModal').find('*[name="type"]').val(type);
+            $('#updateExpenseCategoryModal').find('.ajaxForm').attr('action', $('#updateExpenseCategoryModal').find('.ajaxForm').data('action-template').replace('{:id}', id));
+            $('#updateExpenseCategoryModal').modal('show');
+        });
+    }
 
-		function hideModals() {
-			$('.modal').modal('hide');
-		}
+    function hideModals() {
+        $('.modal').modal('hide');
+    }
 
-		function createCategory(title) {
-			if (window.isAjaxInProcess) {
-				return
-			}
-			window.isAjaxInProcess = true;
-			$.ajax({
-			  url: window.apiUrl + "/expense-category",
-			  headers: {
-			  	"Access-Token": window.accessToken
-			  },
-			  method: "POST",
-			  data: {
-			  	"title": title,
-			  	"type": 3 // @todo some types :)
-			  },
-			  success: function( result ) {
-			  	window.isAjaxInProcess = false;
-			  	requestReport();
-			  }
-			});
-		}
+    function createCategory(title) {
+        if (window.isAjaxInProcess) {
+            return
+        }
+        window.isAjaxInProcess = true;
+        $.ajax({
+            url: window.apiUrl + "/expense-category",
+            headers: {
+                "Access-Token": window.accessToken
+            },
+            method: "POST",
+            data: {
+                "title": title,
+                "type": 3 // @todo some types :)
+            },
+            success: function (result) {
+                window.isAjaxInProcess = false;
+                requestReport();
+            }
+        });
+    }
 
-		function editCategory(id, title) {
-			if (window.isAjaxInProcess) {
-				return
-			}
-			window.isAjaxInProcess = true;
-			$.ajax({
-			  url: window.apiUrl + "/expense-category/" + id,
-			  headers: {
-			  	"Access-Token": window.accessToken
-			  },
-			  method: "PUT",
-			  data: {
-			  	"title": title,
-			  	"type": 1 // @todo some types :)
-			  },
-			  success: function( result ) {
-			  	window.isAjaxInProcess = false;
-			  	requestReport();
-			  }
-			});
-		}
-	</script>
-	<style type="text/css">
-		.col {
-			position: relative;
-		}
+    function editCategory(id, title) {
+        if (window.isAjaxInProcess) {
+            return
+        }
+        window.isAjaxInProcess = true;
+        $.ajax({
+            url: window.apiUrl + "/expense-category/" + id,
+            headers: {
+                "Access-Token": window.accessToken
+            },
+            method: "PUT",
+            data: {
+                "title": title,
+                "type": 1 // @todo some types :)
+            },
+            success: function (result) {
+                window.isAjaxInProcess = false;
+                requestReport();
+            }
+        });
+    }
+</script>
+<style type="text/css">
+    .col {
+        position: relative;
+    }
 
-		.detaliaztion {
-		  	display: none;
-		}
+    .detaliaztion {
+        display: none;
+    }
 
-		.showDetalization:hover + .detaliaztion, .detaliaztion:hover {
-		  	display: block;
-		}
+    .showDetalization:hover + .detaliaztion, .detaliaztion:hover {
+        display: block;
+    }
 
-		.detaliaztion {
-		    position: absolute;
-	        left: 12px;
-			top: 100%;
-		    background: #fff;
-		    border-radius: 5px;
-		    border: 1px solid #eae9e9;
-		    padding: 15px 10px;
-		    width: max-content;
-		    z-index: 1;
-		}
+    .detaliaztion {
+        position: absolute;
+        left: 12px;
+        top: 100%;
+        background: #fff;
+        border-radius: 5px;
+        border: 1px solid #eae9e9;
+        padding: 15px 10px;
+        width: max-content;
+        z-index: 1;
+    }
 
-		.btn-group-xs>.btn, .btn-xs {
-		    --bs-btn-padding-y: 0.15rem;
-		    --bs-btn-padding-x: 0.35rem;
-		    --bs-btn-font-size: 0.65rem;
-		    --bs-btn-border-radius: 0.25rem;
-	        margin-top: -4px !important;
-		}
-		.border-error {
-			border-color: red;
-		}
-	</style>
+    .btn-group-xs > .btn, .btn-xs {
+        --bs-btn-padding-y: 0.15rem;
+        --bs-btn-padding-x: 0.35rem;
+        --bs-btn-font-size: 0.65rem;
+        --bs-btn-border-radius: 0.25rem;
+        margin-top: -4px !important;
+    }
+
+    .border-error {
+        border-color: red;
+    }
+</style>
 </body>
 </html>

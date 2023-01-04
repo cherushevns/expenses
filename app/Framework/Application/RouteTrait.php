@@ -41,7 +41,5 @@ trait RouteTrait
                 $group->post('/logout', Auth\LogoutController::class);
             });
         });
-
-        $app->addRoutingMiddleware();
     }
 }

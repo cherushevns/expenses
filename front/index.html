@@ -106,13 +106,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Название</label>
-                        <input name="title" class="form-control" placeholder="Зарплата">
-                    </div>
-                    <div class="mb-3">
                         <label class="form-label">Сумма</label>
                         <input name="amount" class="form-control" placeholder="0.0">
                         <input type="hidden" name="currency" value="RUB">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Название</label>
+                        <input name="title" class="form-control" placeholder="Зарплата">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Дата</label>
@@ -335,7 +335,7 @@
         }
         window.isAjaxInProcess = true;
         $.ajax({
-            url: window.apiUrl + "/report?from=12.2022&to=03.2023",
+            url: window.apiUrl + "/report?from=12.2022&to=05.2023",
             headers: {
                 "Access-Token": getAccessToken()
             },
@@ -428,11 +428,18 @@
 				<div class="row">
 					<div class="col">Расходы</div>`;
         data.totalExpenses.periods.forEach(function (element) {
+            let limitPercent = (element.limitPercent > 100) ? 100 : element.limitPercent;
+            let progressClass = resolveProgressClass(limitPercent);
+
             html += `
 					<div class="col">
 						Факт: ` + element.actual.amount + ` ` + element.actual.currency + `<br>
 						План: ` + element.planned.amount + ` ` + element.planned.currency + `<br>
-						Расход: ` + element.limitPercent + `%
+						<div class="progress mt-1 mb-1">
+                            <div class="progress-bar` + progressClass + `" role="progressbar" style="width: ` + limitPercent + `%" aria-valuenow="` + limitPercent + `" aria-valuemin="0" aria-valuemax="100">
+                                ` + element.limitPercent + `%
+                            </div>
+                        </div>
 					</div>
 				`;
         });
@@ -447,11 +454,17 @@
 					</div>
 				`;
         data.remains.periods.forEach(function (element) {
+            let limitPercent = (element.limitPercent > 100) ? 100 : element.limitPercent;
+            let progressClass = resolveProgressClass(limitPercent, true);
             html += `
 					<div class="col">
 						Факт: ` + element.totalActual.amount + ` ` + element.totalActual.currency + `<br>
 						План: ` + element.totalPlanned.amount + ` ` + element.totalPlanned.currency + `<br>
-						Расход: ` + element.limitPercent + `%
+						<div class="progress mt-1 mb-1">
+                            <div class="progress-bar` + progressClass + `" role="progressbar" style="width: ` + limitPercent + `%" aria-valuenow="` + limitPercent + `" aria-valuemin="0" aria-valuemax="100">
+                                ` + element.limitPercent + `%
+                            </div>
+                        </div>
 					</div>
 				`;
         });
@@ -469,10 +482,28 @@
 	 		`;
 
         data.expenses.categories.forEach(function (element) {
+            let categoryClass = '';
+            let categoryTitle = '';
+            switch (element.type) {
+                case 1:
+                    categoryClass = 'bg-warning';
+                    categoryTitle = 'Обязательные расходы';
+                    break;
+                case 2:
+                    categoryClass = 'bg-info ';
+                    categoryTitle = 'Накопления';
+                    break;
+                case 3:
+                    categoryClass = 'bg-danger';
+                    categoryTitle = 'Дополнительные расходы';
+                    break;
+            }
             html += `
 					<div class="row">
 						<div class="col">
 							` + element.title + `
+							<div class="category-color ` + categoryClass + `" data-toggle="tooltip" data-placement="top" title="` + categoryTitle + `"></div>
+							<br>
 							<button data-id="` + element.id + `" type="button" class="btn btn-success btn-xs createDefaultPlannedExpense" data-toggle="tooltip" data-placement="top" title="Создать регулярный планируемый расход">+</button>
 							<button data-id="` + element.id + `" data-title="` + element.title + `" data-type="` + element.type + `" type="button" class="btn btn-warning btn-xs updateCategory" data-toggle="tooltip" data-placement="top" title="Изменить категорию">/</button>
 							<button data-id="` + element.id + `" type="button" class="btn btn-danger btn-xs deleteCategory" data-toggle="tooltip" data-placement="top" title="Удалить категорию">-</button>
@@ -485,8 +516,10 @@
 							<span class="expenseEntry">
 								` + entry.money.amount + ` ` + entry.money.currency + ` ` + entry.title + ` ` + entry.spentAt + `
 								<button data-id="` + entry.id + `" type="button" class="btn btn-danger btn-xs deleteActualExpense" data-toggle="tooltip" data-placement="top" title="Удалить фактический расход">-</button>
-							</span>`;
+							</span><br>`;
                 })
+                let limitPercent = (period.limitPercent > 100) ? 100 : period.limitPercent;
+                let progressClass = resolveProgressClass(limitPercent);
                 html += `
 						<div class="col">
 							Факт: ` + period.totalActual.amount + ` ` + period.totalActual.currency + `
@@ -494,8 +527,11 @@
 							<br>
 							План: ` + period.totalPlanned.amount + ` ` + period.totalPlanned.currency + `
 							<button data-date="` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createPlannedExpense" data-toggle="tooltip" data-placement="top" title="Указать план на месяц">+</button>
-							<br> 
-							Расход: ` + period.limitPercent + `% <br>
+                            <div class="progress mt-1 mb-1">
+                                <div class="progress-bar` + progressClass + `" role="progressbar" style="width: ` + limitPercent + `%" aria-valuenow="` + limitPercent + `" aria-valuemin="0" aria-valuemax="100">
+                                    ` + period.limitPercent + `%
+                                </div>
+                            </div>
 							<button type="button" class="btn btn-primary btn-xs showDetalization">Детализация</button>
 							<div class="detaliaztion">` + detalizationHtml + `</div>
 						</div>
@@ -601,6 +637,22 @@
     function hideModals() {
         $('.modal').modal('hide');
     }
+
+    function resolveProgressClass(percent, reversed = false) {
+        let progressClass = '';
+        switch (!reversed && true) {
+            case (percent >= 0 && percent < 33):
+                progressClass = ' bg-success';
+                break;
+            case (percent >= 33 && percent < 66):
+                progressClass = ' bg-warning';
+                break;
+            case (percent >= 66 && percent <= 100):
+                progressClass = ' bg-danger';
+        }
+
+        return progressClass;
+    }
 </script>
 <style>
     .col {
@@ -640,6 +692,13 @@
     }
     .logoutButton {
         float: right;
+    }
+
+    .category-color {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        display: inline-block;
     }
 </style>
 </body>

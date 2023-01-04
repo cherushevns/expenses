@@ -32,6 +32,18 @@ class ContainerBuilder
         $containerBuilder->addDefinitions(self::getIncome());
         $containerBuilder->addDefinitions(self::getReport());
 
+        if ((int) $_SERVER['DI_CACHE_ENABLED'] === 1) {
+            $containerBuilder->enableCompilation(
+                implode(
+                    DIRECTORY_SEPARATOR, [
+                        DIR_ROOT,
+                        'storage',
+                        'di-cache'
+                    ]
+                )
+            );
+        }
+
         return $containerBuilder->build();
     }
 }

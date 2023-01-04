@@ -30,6 +30,8 @@ class AppBuilder
             'DB_DRIVER',
             'DB_PORT',
             'DB_CHARSET',
+            'DEBUG_MODE',
+            'DI_CACHE_ENABLED',
         ]);
 
         $container = ContainerBuilder::build();
@@ -37,9 +39,6 @@ class AppBuilder
         $app = AppFactory::create();
 
         self::addRoutes($app);
-
-        // @todo добавить валидацию OpenAPI
-        $app->addBodyParsingMiddleware();
         self::addMiddlewares($app);
 
         return $app;

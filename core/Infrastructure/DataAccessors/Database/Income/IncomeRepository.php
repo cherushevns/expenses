@@ -81,6 +81,7 @@ SELECT * FROM income
 WHERE
     user_id = :userId AND
     earned_at BETWEEN :dateFrom AND :dateTo
+ORDER BY earned_at ASC
 SQL;
 
         $rows = $this->connection->fetchAll($sql, [

@@ -75,6 +75,7 @@ SELECT * FROM actual_expense
 WHERE
     category_id IN (:categoriesIds) AND
     spent_at BETWEEN :dateFrom AND :dateTo
+ORDER BY spent_at ASC
 SQL;
 
         $rows = $this->connection->fetchAll($sql, [

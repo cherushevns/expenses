@@ -22,6 +22,8 @@ trait MiddlewareTrait
         self::addAuthMiddleware($app);
         self::addErrorMiddleware($app);
         self::addCorsMiddleware($app);
+        self::addRoutingMiddleware($app);
+        self::addBodyParsingMiddleware($app);
     }
 
     private static function addAuthMiddleware(App $app): void
@@ -33,6 +35,7 @@ trait MiddlewareTrait
 
     private static function addValidationMiddleware(App $app): void
     {
+        // @todo включить и настроить
         /*$yamlFileConfigPath = DIR_ROOT . '/app/Framework/OpenApi/api.yaml';
 
         $validationMiddlewareBuilder = new ValidationMiddlewareBuilder();
@@ -95,5 +98,15 @@ trait MiddlewareTrait
                 ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, Access-Token')
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         });
+    }
+
+    private static function addRoutingMiddleware(App $app): void
+    {
+        $app->addRoutingMiddleware();
+    }
+
+    private static function addBodyParsingMiddleware(App $app): void
+    {
+        $app->addBodyParsingMiddleware();
     }
 }

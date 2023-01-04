@@ -278,6 +278,7 @@ class ReportBuilder
         foreach ($plannedExpenses as $plannedExpense) {
             if (
                 $plannedExpense->getCategoryId() === $categoryId
+                && ! $plannedExpense->getWillBeSpentAt()
             ) {
                 return $this->makeMoney($plannedExpense->getAmount(), $plannedExpense->getCurrency());
             }
@@ -353,20 +354,22 @@ class ReportBuilder
 
         foreach ($remainsPeriods as $key => $remainsPeriod) {
             $previousRemainsPeriod = $remainsPeriods[$key - 1] ?? null;
-            if ($previousRemainsPeriod) {
-                $remainsPeriod->setTotalActual(
-                    $previousRemainsPeriod->getTotalActual()->add($remainsPeriod->getTotalActual())
-                );
-                $remainsPeriod->setTotalPlanned(
-                    $previousRemainsPeriod->getTotalPlanned()->add($remainsPeriod->getTotalPlanned())
-                );
-                $remainsPeriod->setLimitPercent(
-                    $this->calculatePercentForPlannedAndActual(
-                        $remainsPeriod->getTotalPlanned(),
-                        $remainsPeriod->getTotalActual()
-                    )
-                );
+            if (! $previousRemainsPeriod) {
+                continue;
             }
+
+            $remainsPeriod->setTotalActual(
+                $previousRemainsPeriod->getTotalActual()->add($remainsPeriod->getTotalActual())
+            );
+            $remainsPeriod->setTotalPlanned(
+                $previousRemainsPeriod->getTotalPlanned()->add($remainsPeriod->getTotalPlanned())
+            );
+            $remainsPeriod->setLimitPercent(
+                $this->calculatePercentForPlannedAndActual(
+                    $remainsPeriod->getTotalPlanned(),
+                    $remainsPeriod->getTotalActual(),
+                )
+            );
         }
 
         return new Remains($remainsPeriods);

@@ -3,6 +3,7 @@ composer.lock
 storage/cache/*
 storage/nginx/*
 storage/*.log
+storage/di-cache
 .env
 .idea/
 mysql/

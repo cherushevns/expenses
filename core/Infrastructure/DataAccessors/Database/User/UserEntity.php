@@ -9,7 +9,6 @@ class UserEntity
         private string $name,
         private string $login,
         private string $email,
-        private string $password,
         private string $passwordHash
     ) {}
 
@@ -31,11 +30,6 @@ class UserEntity
     public function getEmail(): string
     {
         return $this->email;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
     }
 
     public function getPasswordHash(): string

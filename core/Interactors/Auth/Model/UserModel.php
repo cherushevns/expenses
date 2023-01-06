@@ -25,7 +25,6 @@ class UserModel
             $userCreateRequest->getName(),
             $userCreateRequest->getLogin(),
             $userCreateRequest->getEmail(),
-            $encryptedPassword->getPassword(),
             $encryptedPassword->getPasswordHash()
         );
     }

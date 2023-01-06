@@ -21,7 +21,6 @@ SET
     name = :name,
     login = :login,
     email = :email,
-    password = :password,
     password_hash = :passwordHash
 SQL;
 
@@ -29,7 +28,6 @@ SQL;
             'name' => $user->getName(),
             'login' => $user->getLogin(),
             'email' => $user->getEmail(),
-            'password' => $user->getPassword(),
             'passwordHash' => $user->getPasswordHash(),
         ]);
 
@@ -69,7 +67,6 @@ SQL;
             $row['name'],
             $row['login'],
             $row['email'],
-            $row['password'],
             $row['password_hash']
         );
     }

@@ -12,10 +12,16 @@ use DateTimeImmutable;
 class PlannedExpense
 {
     public function __construct(
+        private string $title,
         private int $categoryId,
         private Money $money,
         private ?DateTimeImmutable $willBeSpentAt
     ) {}
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
 
     public function getCategoryId(): int
     {

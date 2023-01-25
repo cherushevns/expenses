@@ -21,6 +21,7 @@ class PlannedExpenseRepository
         $sql = <<<SQL
 INSERT INTO planned_expense
 SET
+    title = :title,
     category_id = :categoryId,
     amount = :amount,
     currency = :currency,
@@ -28,6 +29,7 @@ SET
 SQL;
 
         $this->connection->query($sql, [
+            'title' => $plannedExpense->getTitle(),
             'categoryId' => $plannedExpense->getCategoryId(),
             'amount' => $plannedExpense->getAmount(),
             'currency' => $plannedExpense->getCurrency(),
@@ -58,6 +60,21 @@ SQL;
         return $row ? $row['id'] : null;
     }
 
+    public function getById(int $id): ?PlannedExpenseEntity
+    {
+        $sql = <<<SQL
+SELECT * FROM planned_expense
+WHERE
+    id = :id
+SQL;
+
+        $row = $this->connection->fetchOne($sql, [
+            'id' => $id
+        ]);
+
+        return $row ? $this->makeEntityFromRow($row): null;
+    }
+
     public function deleteById(int $id): void
     {
         $sql = <<<SQL
@@ -85,6 +102,7 @@ SELECT * FROM planned_expense
 WHERE
     category_id IN (:categoriesIds) AND
     (will_be_spent_at BETWEEN :dateFrom AND :dateTo OR will_be_spent_at IS NULL)
+ORDER BY will_be_spent_at ASC
 SQL;
 
         $rows = $this->connection->fetchAll($sql, [
@@ -124,6 +142,8 @@ SQL;
     private function makeEntityFromRow(array $row): PlannedExpenseEntity
     {
         return new PlannedExpenseEntity(
+            $row['id'],
+            $row['title'],
             $row['category_id'],
             $row['amount'],
             $row['currency'],

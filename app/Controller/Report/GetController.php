@@ -26,9 +26,12 @@ class GetController extends AbstractController
             return $this->sendValidationResponse($errors, $response);
         }
 
+        $dateTo = DateTimeImmutable::createFromFormat('m.Y', $parameters['to']);
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $dateTo->format('m'), $dateTo->format('Y'));
+
         $report = $this->getUseCase->get(
             DateTimeImmutable::createFromFormat('d.m.Y H:i:s', '01.' . $parameters['from'] . ' 00:00:00'),
-            DateTimeImmutable::createFromFormat('d.m.Y H:i:s', '01.' . $parameters['to'] . ' 00:00:00'),
+            DateTimeImmutable::createFromFormat('d.m.Y H:i:s', $daysInMonth . '.' . $parameters['to'] . ' 00:00:00'),
         );
 
         return $this->sendSuccessResponse(
@@ -37,124 +40,3 @@ class GetController extends AbstractController
         );
     }
 }
-
-
-/**
-periods: [
-    {
-        date: 2022-12,
-    },
-    {
-        date: 2022-12,
-    }
-],
-incomes: { // Доходы - возможно позже вкорячу планируемые доходы
-    periods: {
-        date: 2022-12,
-        total: {
-            amount: 20000,
-            currency: RUB,
-        }
-        entries: {
-            {
-                id: 1,
-                title: Аванс,
-                amount: 10000,
-                currency: RUB
-            }, {
-                id: 2,
-                title: Зарплата,
-                amount: 10000,
-                currency: RUB
-            }
-        }
-},
-remains: { // Остатки
-    periods: [
-        {
-            date: 2022-12,
-            totalActual: {
-                amount: 18500,
-                currency: RUB,
-            },
-            totalPlanned: {
-                amount: 18500,
-                currency: RUB,
-            }
-        }, {
-            date: 2022-12,
-            totalActual: {
-                amount: 0,
-                currency: RUB,
-            },
-            totalPlanned: {
-                amount: 18500,
-                currency: RUB,
-            }
-        },
-    ]
-}
-totalExpenses: { // Общие расходы за периоды
-    periods: [
-        {
-            date: 2022-12,
-            planned: {
-                amount: 1000,
-                currency: RUB
-            },
-            actual: {
-                amount: 1500,
-                currency: RUB
-            },
-            limitPercent: 150
-        }
-    ]
-}
-expenses: { // Расходы по категориям за периоды
-    categories: {
-        id: 1,
-        title: Еда домой // just on view
-        periods: [
-            {
-                date: 2022-12,
-                totalPlanned: {
-                    amount: 1000,
-                    currency: RUB
-                },
-                totalActual: {
-                    amount: 1500,
-                    currency: RUB
-                }
-                limitPercent: 150,
-                actualExpenses: {
-                    {
-                        id: 1,
-                        title: 'Яблоко',
-                        amount: 750,
-                        currency: RUB,
-                        date: 2022-12-01
-                    }, {
-                        id: 2,
-                        title: 'Яблоко',
-                        amount: 750,
-                        currency: RUB,
-                        date: 2022-12-02
-                    }
-                }
-            }, {
-                date: 2023-01,
-                totalPlanned: {
-                    amount: 2000,
-                    currency: RUB
-                },
-                totalActual: {
-                    amount: 0,
-                    currency: RUB
-                }
-                limitPercent: 0,
-                actualExpenses: {}
-            },
-        ]
-    }
-}
- */

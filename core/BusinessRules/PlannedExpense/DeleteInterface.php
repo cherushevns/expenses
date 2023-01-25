@@ -2,7 +2,7 @@
 
 namespace Core\BusinessRules\PlannedExpense;
 
-interface DeleteByIdInterface
+interface DeleteInterface
 {
     public function delete(int $id): void;
 }

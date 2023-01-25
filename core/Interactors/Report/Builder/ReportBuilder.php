@@ -10,6 +10,7 @@ use Core\BusinessRules\Report\Entity\Expenses;
 use Core\BusinessRules\Report\Entity\IncomeEntry;
 use Core\BusinessRules\Report\Entity\IncomePeriod;
 use Core\BusinessRules\Report\Entity\Incomes;
+use Core\BusinessRules\Report\Entity\PlannedExpense;
 use Core\BusinessRules\Report\Entity\RemainPeriod;
 use Core\BusinessRules\Report\Entity\Remains;
 use Core\BusinessRules\Report\Entity\Report;
@@ -22,7 +23,6 @@ use Core\Infrastructure\DataAccessors\Database\PlannedExpense\PlannedExpenseEnti
 use DateInterval;
 use DatePeriod;
 use DateTimeImmutable;
-use RuntimeException;
 
 class ReportBuilder
 {
@@ -182,6 +182,11 @@ class ReportBuilder
                     $expenseCategory->getId(),
                     $date
                 );
+                $reportPlannedExpenses = $this->resolvePlannedExpensesByCategoryAndDate(
+                    $plannedExpenses,
+                    $expenseCategory->getId(),
+                    $date
+                );
                 $totalPlanned = $this->calculateTotalPlannedByCategoryAndDate(
                     $plannedExpenses,
                     $expenseCategory->getId(),
@@ -196,6 +201,7 @@ class ReportBuilder
                     $totalPlanned,
                     $totalActual,
                     $this->calculatePercentForPlannedAndActual($totalPlanned, $totalActual),
+                    $reportPlannedExpenses,
                     $reportActualExpenses
                 );
             }
@@ -257,6 +263,50 @@ class ReportBuilder
      * @param PlannedExpenseEntity[] $plannedExpenses
      * @param int $categoryId
      * @param DateTimeImmutable $date
+     * @return PlannedExpense[]
+     */
+    private function resolvePlannedExpensesByCategoryAndDate(
+        array $plannedExpenses,
+        int $categoryId,
+        DateTimeImmutable $date
+    ): array {
+        $result = [];
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'));
+
+        $dateFrom = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $date->format('Y-m') . '-01 00:00:00'
+        );
+        $dateTo = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $date->format('Y-m') . '-' . $daysInMonth . ' 00:00:00'
+        );
+        foreach ($plannedExpenses as $plannedExpense) {
+            if (
+                $plannedExpense->getWillBeSpentAt()
+                && $plannedExpense->getWillBeSpentAt()->getTimestamp() >= $dateFrom->getTimestamp()
+                && $plannedExpense->getWillBeSpentAt()->getTimestamp() <= $dateTo->getTimestamp()
+                && $plannedExpense->getCategoryId() === $categoryId
+            ) {
+                $result[] = new PlannedExpense(
+                    $plannedExpense->getId(),
+                    $plannedExpense->getTitle(),
+                    $this->makeMoney(
+                        $plannedExpense->getAmount(),
+                        $plannedExpense->getCurrency()
+                    ),
+                    $plannedExpense->getWillBeSpentAt()
+                );
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param PlannedExpenseEntity[] $plannedExpenses
+     * @param int $categoryId
+     * @param DateTimeImmutable $date
      * @return Money
      */
     private function calculateTotalPlannedByCategoryAndDate(
@@ -264,15 +314,35 @@ class ReportBuilder
         int $categoryId,
         DateTimeImmutable $date
     ): Money {
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'));
+
+        $dateFrom = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $date->format('Y-m') . '-01 00:00:00'
+        );
+        $dateTo = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $date->format('Y-m') . '-' . $daysInMonth . ' 00:00:00'
+        );
+
+        $hasSomethingAdded = false;
+        $result = $this->makeDefaultMoney();
+
         // Сначала смотрим есть ли запланированный расход по конкретной дате
         foreach ($plannedExpenses as $plannedExpense) {
             if (
                 $plannedExpense->getCategoryId() === $categoryId
                 && $plannedExpense->getWillBeSpentAt()
-                && $plannedExpense->getWillBeSpentAt()->getTimestamp() === $date->getTimestamp()
+                && $plannedExpense->getWillBeSpentAt()->getTimestamp() >= $dateFrom->getTimestamp()
+                && $plannedExpense->getWillBeSpentAt()->getTimestamp() <= $dateTo->getTimestamp()
             ) {
-                return $this->makeMoney($plannedExpense->getAmount(), $plannedExpense->getCurrency());
+                $hasSomethingAdded = true;
+                $result = $result->add($this->makeMoney($plannedExpense->getAmount(), $plannedExpense->getCurrency()));
             }
+        }
+
+        if ($hasSomethingAdded) {
+            return $result;
         }
 
         foreach ($plannedExpenses as $plannedExpense) {

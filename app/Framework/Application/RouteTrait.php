@@ -23,6 +23,7 @@ trait RouteTrait
             });
             $group->group('/planned-expense', function(RouteCollectorProxy $group): void {
                 $group->post('', PlannedExpense\CreateController::class);
+                $group->delete('/{id}', PlannedExpense\DeleteController::class);
             });
             $group->group('/actual-expense', function(RouteCollectorProxy $group): void {
                 $group->post('', ActualExpense\CreateController::class);

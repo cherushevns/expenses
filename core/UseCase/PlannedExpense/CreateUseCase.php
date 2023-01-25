@@ -3,23 +3,26 @@
 namespace Core\UseCase\PlannedExpense;
 
 use Core\BusinessRules\PlannedExpense\CreateInterface;
-use Core\BusinessRules\PlannedExpense\DeleteByIdInterface;
+use Core\BusinessRules\PlannedExpense\DeleteInterface;
 use Core\BusinessRules\PlannedExpense\Entity\PlannedExpense;
 use Core\BusinessRules\PlannedExpense\GetExistIdInterface;
 
-class CreateUseCase
+readonly class CreateUseCase
 {
     public function __construct(
         private GetExistIdInterface $getExistId,
-        private DeleteByIdInterface $deleteById,
+        private DeleteInterface $deleteById,
         private CreateInterface $create
     ) {}
 
     public function create(PlannedExpense $plannedExpense): void
     {
-        $existsId = $this->getExistId->get($plannedExpense);
-        if ($existsId) {
-            $this->deleteById->delete($existsId);
+        // Удаляем планируемый расход на весь месяц, если прислали расход на тот же месяц
+        if (! $plannedExpense->getWillBeSpentAt()) {
+            $existsId = $this->getExistId->get($plannedExpense);
+            if ($existsId) {
+                $this->deleteById->delete($existsId);
+            }
         }
 
         $this->create->create($plannedExpense);

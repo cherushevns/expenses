@@ -4,6 +4,7 @@ namespace App\View\Report;
 
 use Core\BusinessRules\Common\Money\Money;
 use Core\BusinessRules\ExpenseCategory\GetByIdInterface;
+use Core\BusinessRules\Report\Entity\PlannedExpense;
 use Core\BusinessRules\Report\Entity\ActualExpense;
 use Core\BusinessRules\Report\Entity\ExpenseCategory;
 use Core\BusinessRules\Report\Entity\ExpensePeriod;
@@ -79,6 +80,15 @@ class View
                                 'totalPlanned' => $this->makeViewMoney($period->getTotalPlanned()),
                                 'totalActual' => $this->makeViewMoney($period->getTotalActual()),
                                 'limitPercent' => $period->getLimitPercent(),
+                                'plannedExpenses' => array_map(
+                                    fn (PlannedExpense $plannedExpense): array => [
+                                        'id' => $plannedExpense->getId(),
+                                        'title' => $plannedExpense->getTitle(),
+                                        'money' => $this->makeViewMoney($plannedExpense->getMoney()),
+                                        'willBeSpentAt' => $plannedExpense->getWillBeSpentAt()->format('d.m.Y')
+                                    ],
+                                    $period->getPlannedExpenses()
+                                ),
                                 'actualExpenses' => array_map(
                                     fn (ActualExpense $actualExpense): array => [
                                         'id' => $actualExpense->getId(),

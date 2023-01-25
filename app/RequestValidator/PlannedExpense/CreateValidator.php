@@ -34,11 +34,15 @@ class CreateValidator
 
         if (! empty($data['date'])) {
             try {
-                $date = DateTimeImmutable::createFromFormat('m.Y', $data['date']);
+                $date = DateTimeImmutable::createFromFormat('d.m.Y', $data['date']);
             } catch (Throwable) {}
 
             if (! $date) {
-                $errors[] = ['field' => 'date', 'error' => 'Дата должна быть следующего формата: ГГГГ-мм'];
+                $errors[] = ['field' => 'date', 'error' => 'Дата должна быть следующего формата: ГГГГ-мм-дд'];
+            }
+
+            if (empty($data['title'])) {
+                $errors[] = ['field' => 'title', 'error' => 'Заполните название'];
             }
         }
 

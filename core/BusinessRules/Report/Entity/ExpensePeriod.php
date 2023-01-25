@@ -12,6 +12,7 @@ class ExpensePeriod
      * @param Money $totalPlanned
      * @param Money $totalActual
      * @param float $limitPercent
+     * @param PlannedExpense[] $plannedExpenses
      * @param ActualExpense[] $actualExpenses
      */
     public function __construct(
@@ -19,6 +20,7 @@ class ExpensePeriod
         private Money $totalPlanned,
         private Money $totalActual,
         private float $limitPercent,
+        private array $plannedExpenses,
         private array $actualExpenses
     ) {}
 
@@ -40,6 +42,11 @@ class ExpensePeriod
     public function getLimitPercent(): float
     {
         return $this->limitPercent;
+    }
+
+    public function getPlannedExpenses(): array
+    {
+        return $this->plannedExpenses;
     }
 
     public function getActualExpenses(): array

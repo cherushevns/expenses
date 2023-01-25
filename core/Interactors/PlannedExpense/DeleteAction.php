@@ -2,10 +2,10 @@
 
 namespace Core\Interactors\PlannedExpense;
 
-use Core\BusinessRules\PlannedExpense\DeleteByIdInterface;
+use Core\BusinessRules\PlannedExpense\DeleteInterface;
 use Core\Infrastructure\DataAccessors\Database\PlannedExpense\PlannedExpenseRepository;
 
-class DeleteByIdIAction implements DeleteByIdInterface
+class DeleteAction implements DeleteInterface
 {
     public function __construct(
         private PlannedExpenseRepository $plannedExpenseRepository

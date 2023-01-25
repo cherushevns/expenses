@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Тест</title>
+    <title>Расходы</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -160,9 +160,13 @@
                         <input type="hidden" name="currency" value="RUB">
                         <input type="hidden" name="categoryId">
                     </div>
+                    <div class="mb-3 title-input" style="display: none">
+                        <label class="form-label">Название</label>
+                        <input name="title" class="form-control" placeholder="Молоко">
+                    </div>
                     <div class="mb-3 date-input" style="display: none">
                         <label class="form-label">Дата</label>
-                        <input name="date" class="form-control" placeholder="ММ.ГГГГ">
+                        <input name="date" class="form-control" placeholder="ДД.ММ.ГГГГ">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -213,6 +217,23 @@
             <form class="ajaxForm" data-action-template="/actual-expense/{:id}" action="" method="DELETE">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Вы уверены, что хотите удалить фактический расход?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete planned expense -->
+<div class="modal fade" id="deletePlannedExpenseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="ajaxForm" data-action-template="/planned-expense/{:id}" action="" method="DELETE">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Вы уверены, что хотите удалить планируемый расход?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
@@ -410,13 +431,9 @@
 					<div class="col">`
                 + element.total.amount + ` ` + element.total.currency + `
 						<button data-date="01.` + element.date + `" type="button" class="btn btn-success btn-xs createIncome" data-toggle="tooltip" data-placement="top" title="Создать доход">+</button>
+				 		<button type="button" class="btn btn-primary btn-xs showDetalization">i</button>
+			 			<div class="detaliaztion">` + detalizationHtml + `</div>
 				 		<br>
-				 		<button type="button" class="btn btn-primary btn-xs showDetalization">
-				 			Детализация
-			 			</button>
-			 			<div class="detaliaztion">
-			 				` + detalizationHtml + `
-		 				</div>
 	 				</div>
  				`;
         });
@@ -510,30 +527,47 @@
 						</div>
 					`;
             element.periods.forEach(function (period) {
-                var detalizationHtml = '';
+                var actualDetalizationHtml = '';
                 period.actualExpenses.forEach(function (entry) {
-                    detalizationHtml += `
+                    actualDetalizationHtml += `
 							<span class="expenseEntry">
 								` + entry.money.amount + ` ` + entry.money.currency + ` ` + entry.title + ` ` + entry.spentAt + `
 								<button data-id="` + entry.id + `" type="button" class="btn btn-danger btn-xs deleteActualExpense" data-toggle="tooltip" data-placement="top" title="Удалить фактический расход">-</button>
+							</span><br>`;
+                })
+                var plannedDetalizationHtml = '';
+                period.plannedExpenses.forEach(function (entry) {
+                    plannedDetalizationHtml += `
+							<span class="expenseEntry">
+								` + entry.money.amount + ` ` + entry.money.currency + ` ` + entry.title + ` ` + entry.willBeSpentAt + `
+								<button data-id="` + entry.id + `" type="button" class="btn btn-danger btn-xs deletePlannedExpense" data-toggle="tooltip" data-placement="top" title="Удалить планируемый расход">-</button>
 							</span><br>`;
                 })
                 let limitPercent = (period.limitPercent > 100) ? 100 : period.limitPercent;
                 let progressClass = resolveProgressClass(limitPercent);
                 html += `
 						<div class="col">
-							Факт: ` + period.totalActual.amount + ` ` + period.totalActual.currency + `
-							<button data-date="01.` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createActualExpense" data-toggle="tooltip" data-placement="top" title="Указать фактический расход">+</button>
-							<br>
-							План: ` + period.totalPlanned.amount + ` ` + period.totalPlanned.currency + `
-							<button data-date="` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createPlannedExpense" data-toggle="tooltip" data-placement="top" title="Указать план на месяц">+</button>
+						    <div class="row">
+						        <div class="col">
+                                    Факт: ` + period.totalActual.amount + ` ` + period.totalActual.currency + `
+                                    <button data-date="01.` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createActualExpense" data-toggle="tooltip" data-placement="top" title="Указать фактический расход">+</button>
+                                    <button type="button" class="btn btn-primary btn-xs showDetalization">i</button>
+                                    <div class="detaliaztion">` + actualDetalizationHtml + `</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    План: ` + period.totalPlanned.amount + ` ` + period.totalPlanned.currency + `
+                                    <button data-date="01.` + period.date + `" data-category-id="` + element.id + `" type="button" class="btn btn-success btn-xs createPlannedExpense" data-toggle="tooltip" data-placement="top" title="Указать план на месяц">+</button>
+                                    <button type="button" class="btn btn-primary btn-xs showDetalization">i</button>
+                                    <div class="detaliaztion">` + plannedDetalizationHtml + `</div>
+                                </div>
+                            </div>
                             <div class="progress mt-1 mb-1">
                                 <div class="progress-bar` + progressClass + `" role="progressbar" style="width: ` + limitPercent + `%" aria-valuenow="` + limitPercent + `" aria-valuemin="0" aria-valuemax="100">
                                     ` + period.limitPercent + `%
                                 </div>
                             </div>
-							<button type="button" class="btn btn-primary btn-xs showDetalization">Детализация</button>
-							<div class="detaliaztion">` + detalizationHtml + `</div>
 						</div>
 					`;
             });
@@ -601,8 +635,10 @@
             let categoryId = $(this).data('id');
             let modal = $('#createPlannedExpense');
             modal.find('.date-input').hide();
+            modal.find('.title-input').hide();
             modal.find('*[name="categoryId"]').val(categoryId);
             modal.find('*[name="date"]').val('');
+            modal.find('*[name="title"]').val('');
             modal.modal('show');
         })
 
@@ -611,6 +647,7 @@
             let date = String($(this).data('date'));
             let modal = $('#createPlannedExpense');
             modal.find('.date-input').show();
+            modal.find('.title-input').show();
             modal.find('*[name="categoryId"]').val(categoryId);
             modal.find('*[name="date"]').val(date);
             modal.modal('show');
@@ -629,6 +666,13 @@
         $(document).on('click', '.deleteActualExpense', function(){
             let id = $(this).data('id');
             let modal = $('#deleteActualExpenseModal');
+            modal.find('.ajaxForm').attr('action', modal.find('.ajaxForm').data('action-template').replace('{:id}', id));
+            modal.modal('show');
+        })
+
+        $(document).on('click', '.deletePlannedExpense', function(){
+            let id = $(this).data('id');
+            let modal = $('#deletePlannedExpenseModal');
             modal.find('.ajaxForm').attr('action', modal.find('.ajaxForm').data('action-template').replace('{:id}', id));
             modal.modal('show');
         })
@@ -669,14 +713,15 @@
 
     .detaliaztion {
         position: absolute;
-        left: 12px;
-        top: 100%;
+        top: 22px;
         background: #fff;
         border-radius: 5px;
         border: 1px solid #eae9e9;
         padding: 15px 10px;
         width: max-content;
         z-index: 1;
+        max-height: 200px;
+        overflow-y: scroll;
     }
 
     .btn-group-xs > .btn, .btn-xs {

@@ -27,13 +27,14 @@ class CreateController extends AbstractController
         }
 
         $plannedExpense = new PlannedExpense(
+            $data['title'] ?? '',
             $data['categoryId'],
             new Money(
                 $data['amount'],
                 $data['currency']
             ),
             ! empty($data['date'])
-                ? DateTimeImmutable::createFromFormat('d.m.Y H:i:s', '01.' . $data['date'] . ' 00:00:00')
+                ? DateTimeImmutable::createFromFormat('d.m.Y H:i:s', $data['date'] . ' 00:00:00')
                 : null
         );
 

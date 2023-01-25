@@ -70,6 +70,7 @@ create table planned_expense
 (
     id                  int auto_increment
         primary key,
+    title               varchar(255) default '',
     category_id         int(11) not null,
     amount              decimal(16,2) not null,
     currency            varchar(255) not null,

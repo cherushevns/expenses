@@ -7,7 +7,7 @@ use Core\BusinessRules\PlannedExpense\DeleteInterface;
 use Core\BusinessRules\PlannedExpense\Entity\PlannedExpense;
 use Core\BusinessRules\PlannedExpense\GetExistIdInterface;
 
-readonly class CreateUseCase
+class CreateUseCase
 {
     public function __construct(
         private GetExistIdInterface $getExistId,

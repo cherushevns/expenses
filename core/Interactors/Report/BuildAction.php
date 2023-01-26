@@ -13,7 +13,7 @@ use Core\Infrastructure\DataAccessors\Database\PlannedExpense\PlannedExpenseRepo
 use Core\Interactors\Report\Builder\ReportBuilder;
 use DateTimeImmutable;
 
-readonly class BuildAction implements BuildInterface
+class BuildAction implements BuildInterface
 {
     public function __construct(
         private ExpenseCategoryRepository $expenseCategoryRepository,
